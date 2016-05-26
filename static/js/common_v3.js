@@ -1,20 +1,20 @@
 var MasterConfig = function() {
     var t = {
                 
-        //baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
-        //basePageUrl:"http://www.e-shequ.com/baofang/weixin/",
-        //appId: "wx89c743b2fa762a2c",
+        baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
+        basePageUrl:"http://www.e-shequ.com/baofang/weixin/",
+        appId: "wx89c743b2fa762a2c",
         
         //baseUrl: "http://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"http://www.e-shequ.com/wechat-sit/hexie/",
 
-        baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
-        basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
-        appId: "wx95f46f41ca5e570e",
+        //baseUrl: "http://test.e-shequ.com/wechat/hexie/wechat/",
+        //basePageUrl:"http://test.e-shequ.com/weixin/",
+        //appId: "wx95f46f41ca5e570e",
         
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
         oauthUrlPostFix:"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect",
-        bindAppId: "wx9ffe0a2b5a64a285",
+        bindAppId: "wx6b7f7d4010183c46",
         
         baidu_map_key:"RUWUgrEEF5VjoaWsstMMZwOD",
         shop_name: "大楼",
@@ -43,7 +43,7 @@ var Config = function() {
             no_goods: "更多新品正在陆续推出..."
         },
         user_info: {
-            avatar: "http://www.e-shequ.com/weixin/static/images/logo.jpg",
+            avatar: "http://www.e-shequ.com/baofang/weixin/static/images/logo.jpg",
             nickname: "游客",
             levelname: "普通会员"
         },
@@ -53,7 +53,7 @@ var Config = function() {
             2 : "大楼VIP"
         },
         coupon:{
-            seedImg:"http://www.e-shequ.com/weixin/static/img/banner/banner_market_shuiguo.jpg"
+            seedImg:"http://www.e-shequ.com/baofang/weixin/static/img/banner/banner_market_shuiguo.jpg"
         }
     },
     e = {};
@@ -78,7 +78,7 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
             +"<div class='weui_dialog'>                                                       "
             +"  <div class='dialog_title'>"+title+"</div>                                          "
             +"  <div class='dialog_content'>                                                  "
-			+"		<textarea class='dialog_textarea' rows='4' placeholder='"+placeholder+"' id='dialog_content'>"+content+"</textarea>"
+            +"      <textarea class='dialog_textarea' placeholder='"+placeholder+"' id='dialog_content'>"+content+"</textarea>"
             +"  </div>                                                                        "
             +"  <div class='dialog_btn_bar'>                                                  "
             +"      <div class='dialog_btn' id='dialog_cancel'>取消</div>                     "
@@ -341,6 +341,16 @@ var common = {
             location.href = location.origin +common.removeParamFromUrl(["code"]);
         })
     },
+//  暂时不需要校验本地登录（若存在可登录可不登录的需要处理）
+//  checkLocalLogin: function() {
+//      if(!getCookie("UID")) {
+//          common.alert("unlogin");
+//          return true;
+//      } else {
+//          common.login();
+//          return false;
+//      }
+//  },
     checkRegisterStatus:function(){
         if(!getCookie("UID")){
         	common.login();/**不应该出现*/

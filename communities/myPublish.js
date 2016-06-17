@@ -33,7 +33,6 @@ avalon.ready(function() {
         i = null,
         e = function(n) {
 			console.log(JSON.stringify(n));
-			console.log(JSON.stringify(n));
 			var map = n.result;
 			var url = map.imgUrl;
 			var width = map.width;

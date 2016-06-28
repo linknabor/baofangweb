@@ -2,9 +2,14 @@ avalon.ready(function() {
 	function getOrderId(){
 		o.orderId=getUrlParam("orderId");
 		o.type=getUrlParam("type");
+		o.marketBuy = getUrlParam("marketBuy");
 	}
 	function notifyPaySuccess() {
-        common.invokeApi("GET", "notifyPayed/"+o.orderId, null, null, function(n) {
+		var url ="notifyPayed/"+o.orderId;
+		if(o.marketBuy){
+			url="/collocation/notifyPayed/"+o.orderId;
+		}
+        common.invokeApi("GET", url, null, null, function(n) {
     	}, function() {
     		
     	});
@@ -16,6 +21,9 @@ avalon.ready(function() {
 			link=MasterConfig.C('basePageUrl')+"group/rgroupinvite.html?ruleId="+order.groupRuleId;
 		}else if(order.orderType==0&&order.groupId!=0){
 			link=MasterConfig.C('basePageUrl')+"group.html?groupId="+order.groupId;
+		}
+		if(o.marketBuy){
+			link=MasterConfig.C('basePageUrl')+"home/onsalesindex.html";
 		}
 
 		var desc="分享给小伙伴们一个超赞的限时特惠活动！";
@@ -40,7 +48,11 @@ avalon.ready(function() {
 		        	if(o.type==4){
 		        		location.href="rgroups.html";        		
 		        	}else if(o.type==3){
-		        		location.href="onsalesindex.html";
+		        		if(o.marketBuy){
+		        			location.href="../home/index.html";
+		        		}else{
+		        			location.href="onsalesindex.html";
+		        		}
 		        	}else if(o.type==5){
 		        		location.href="../home/index.html?v=20160229";
 		        	}else{
@@ -56,7 +68,12 @@ avalon.ready(function() {
 		        	if(o.type==4){
 		        		location.href="rgroups.html";        		
 		        	}else if(o.type==3){
-		        		location.href="onsalesindex.html";
+		        		if(o.marketBuy){
+		        			location.href="../home/index.html";
+		        		}else{
+		        			location.href="onsalesindex.html";
+		        		}
+		        		
 		        	}else if(o.type==5){
 		        		location.href="../home/index.html?v=20160229";
 		        	}else{
@@ -71,11 +88,16 @@ avalon.ready(function() {
         order:{seedStr:""},
         orderId:"",
         coupon:{id:0},
+        marketBuy: 0,
         goback:function(){
         	if(o.type==4){
         		location.href="rgroups.html";
         	}else if(o.type==3){
-        		location.href="onsalesindex.html";
+        		if(o.marketBuy){
+        			location.href="../home/index.html";
+        		}else{
+        			location.href="onsalesindex.html";
+        		}
         	}else if(o.type==5){
         		location.href="../home/index.html?v=20160229";
         	}else{

@@ -216,7 +216,7 @@
 	</div>
 <!--	当满免邮费价为0或者为0.0时不显示包邮信息-->
 	<div class="line p15 fs15" style="height:20px">
-		<span class="fl">快递费</span> 
+		<span class="fl">{{logisticFeeDisplay}}</span> 
 		<span class="fl baoyou_desc" ms-visible="model.collocation.freeShipAmount>0">满{{model.collocation.freeShipAmount}}包邮</span>
 		<span class="fr"> ¥&nbsp;{{model.logisticsFee}}  </span>
 	</div>
@@ -230,7 +230,7 @@
 			<span class="fl highlight fs15">支付金额</span> 
 			<span class="fr highlight fs20 mlr10"> ¥&nbsp;{{model.realAmount}}  </span>
 	</div>
-	<div class="info-wrap bgwhite">
+	<div class="info-wrap bgwhite" ms-visible="marketBuy==0">
 		<div class="section-title">收货时间</div>
 		<a href="#" class="menu-link custom-menu-link fs14" style="height:30px" ms-click="datechoooser.showModal"><i class="address_icon time-icon fl"></i>{{datechoooser.time}}</a>
 	</div>

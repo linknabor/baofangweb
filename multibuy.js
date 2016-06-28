@@ -49,6 +49,14 @@ function computeAmount(){
         o.model.realAmount = "0.01";
     }
 }
+
+function getParam(){
+	o.marketBuy=getUrlParam("marketBuy");
+	if(o.marketBuy){
+		o.logisticFeeDisplay='配送费';
+	}
+}
+
 avalon.ready(function() {
 
 	function queryBuyInfo(){
@@ -97,28 +105,33 @@ avalon.ready(function() {
     }
     
     function requestPay() {
-    	var n = "GET",
-        a = "/requestPay/"+o.model.order.id,
-        i = null,
-        e = function(n) {
-        	wx.chooseWXPay({
-              "timestamp":n.result.timestamp,
-              "nonceStr":n.result.nonceStr,
-              "package":n.result.pkgStr,
-              "signType":n.result.signType,
-              "paySign":n.result.signature,
-        	   success: function (res) {
-        	        // 支付成功后的回调函数
-        		   alert("下单成功！");
-		    	   location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type;
-        	   }
-        	});
-        },
-        r = function(n) {
-        	alert(n.message==null?"支付请求失败，请稍后重试！":n.message);
-        	o.control.paying=false;
-        };
-        common.invokeApi(n, a, i, null, e, r)
+    	
+    	alert("下单成功！");
+  	    location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type+"&marketBuy="+o.marketBuy;
+    	
+//    	var n = "GET",
+//        a = "/requestPay/"+o.model.order.id,
+//        i = null,
+//        e = function(n) {
+//        	wx.chooseWXPay({
+//              "timestamp":n.result.timestamp,
+//              "nonceStr":n.result.nonceStr,
+//              "package":n.result.pkgStr,
+//              "signType":n.result.signType,
+//              "paySign":n.result.signature,
+//        	   success: function (res) {
+//        	        // 支付成功后的回调函数
+//        		   
+//        		   alert("下单成功！");
+//		    	   location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type;
+//        	   }
+//        	});
+//        },
+//        r = function(n) {
+//        	alert(n.message==null?"支付请求失败，请稍后重试！":n.message);
+//        	o.control.paying=false;
+//        };
+//        common.invokeApi(n, a, i, null, e, r)
     }
     function notifyPaySuccess() {
     	var n = "GET",
@@ -144,6 +157,9 @@ avalon.ready(function() {
         detaillocation:'',
         disCountAmount:0,
         disLogisticsFee:true,
+        marketBuy:0,		//是否为超时快购
+        logisticFeeDisplay:'快递费',
+        
         model:{
         	type:3,/**默认特卖*/
         	collocation: {},
@@ -168,14 +184,13 @@ avalon.ready(function() {
 	        		return;
 	        	}
 	        	var order = {
-	        			serviceAddressId:o.address.id,
+	        			serviceAddressId:o.model.address.id,
 	        			memo:o.model.comment,
 	        			receiveTimeType:o.model.receiveTimeType
 	        	 }
 	        	if(o.model.coupon != null) {
 	        		order.couponId=o.model.coupon.id;
-	        	}
-	        	;
+	        	};
 	        	if(o.model.address.id==0){
 	        		alert("请选择地址！");
 	        		return;
@@ -247,5 +262,7 @@ avalon.ready(function() {
     if(common.checkRegisterStatus()) {
     	queryBuyInfo();
     	queryCoupon();
-    }
+	}
+    	
+    getParam();
 });

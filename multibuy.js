@@ -106,7 +106,7 @@ avalon.ready(function() {
     
     function requestPay() {
     	
-    	alert("下单成功！");
+    	initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
 //  	    location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type+"&marketBuy="+o.marketBuy;
     	
     	var n = "GET",

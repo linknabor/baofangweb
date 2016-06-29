@@ -148,11 +148,16 @@
 	    background-size: 7px 12px;
 	    background-position: right center;
 	}
+	
+	.zzmb{z-index:100000; position: absolute; top:0; left:0; -moz-opacity:0.65; opacity:0.65; filter: alpha(opacity=65); background:#000; width:100%; height:100%;display:block}
 </style>
 </head>
 
 <body ms-controller="root">
 	<!-- load -->
+	
+	<div id="zzmb" class="zzmb" style="display:none;position:fixed;"></div>
+	
 		<div class="load6" id="LoadingBar">
 			<div class="bounce1"></div>
 			<div class="bounce2"></div>

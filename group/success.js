@@ -23,7 +23,7 @@ avalon.ready(function() {
 			link=MasterConfig.C('basePageUrl')+"group.html?groupId="+order.groupId;
 		}
 		if(o.marketBuy){
-			link=MasterConfig.C('basePageUrl')+"home/onsalesindex.html";
+			link=MasterConfig.C('basePageUrl')+"group/onsalesindex.html";
 		}
 
 		var desc="分享给小伙伴们一个超赞的限时特惠活动！";

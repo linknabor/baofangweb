@@ -33,6 +33,7 @@ avalon.ready(function() {
             o.order = n.result;
             o.timeStr = getTimeStr();
 			o.groupStatusStr = getGroupState();
+			getOrderItems();
         },
         r = function() {
         	alert("获取订单信息失败！");
@@ -40,6 +41,24 @@ avalon.ready(function() {
         };
         common.invokeApi(n, a, i, null, e, r)
     }
+    
+    function getOrderItems() {
+        var n = "GET",
+        a = "getSupermarketOrderItems/"+o.orderId,
+        i = null,
+        e = function(n) {
+            console.log(JSON.stringify(n));
+            o.orderItems = n.result;
+            o.totalCount = o.orderItems.length;
+            
+        },
+        r = function() {
+        	alert("获取订单信息失败！");
+        	location.href="../home/index.html";
+        };
+        common.invokeApi(n, a, i, null, e, r)
+    }
+    
     function pay(order) {
     	var n = "GET",
         a = "/requestPay/"+order.id,
@@ -107,6 +126,9 @@ avalon.ready(function() {
         group:{},
         groupStatusStr:"",
         timeStr:"",
+        orderItems:[],
+        totalCount:0,
+        
     	gotoGroupDetail:function(order){
     		window.location.href = "group/rgroupinvite.html?ruleId="+ order.groupRuleId + "&share=1";
     	},

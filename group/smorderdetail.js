@@ -12,8 +12,8 @@ avalon.ready(function() {
             getOrderItems();
             
         },
-        r = function() {
-        	alert("获取订单信息失败！");
+        r = function(n) {
+        	alert(n.message);
         	location.href="../home/index.html";
         };
         common.invokeApi(n, a, i, null, e, r)
@@ -32,8 +32,8 @@ avalon.ready(function() {
 //            o.totalPrice = o.totalPrice.toFixed(2);
             
         },
-        r = function() {
-        	alert("获取订单信息失败！");
+        r = function(n) {
+        	alert(n.message);
         	location.href="../home/index.html";
         };
         common.invokeApi(n, a, i, null, e, r)

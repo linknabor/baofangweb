@@ -214,7 +214,11 @@
 		<span class="fr highlight">&nbsp; ¥{{order.shipFee.toFixed(2)}}  </span>
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
-		<span class="fl">合&nbsp;&nbsp;计</span> 
+		<span class="fl">现金券</span> 
+		<span class="fr highlight">&nbsp; ¥{{order.couponAmount.toFixed(2)}}  </span>
+	</div>
+	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
+		<span class="fl highlight">实际支付金额</span> 
 		<span class="fr highlight">&nbsp; ¥{{totalPrice.toFixed(2)}}  </span>
 	</div>
 	<div style="height: 30px;"></div>

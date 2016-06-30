@@ -57,8 +57,8 @@ avalon.ready(function() {
         	            console.log(JSON.stringify(n));
         	            alert("发货成功！");
         	        },
-        	        r = function() {
-        	        	alert("发货失败，请重试！");
+        	        r = function(n) {
+        	        	alert(n.message);
         	        };
         	        common.invokeApi(n, a, i, null, e, r)
         	    }

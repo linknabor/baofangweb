@@ -215,7 +215,8 @@
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl">现金券</span> 
-		<span class="fr highlight">&nbsp; ¥{{order.couponAmount.toFixed(2)}}  </span>
+		<span class="fr highlight" ms-if="order.couponAmount!=null">&nbsp; ¥{{order.couponAmount.toFixed(2)}}  </span>
+		<span class="fr highlight" ms-if="order.couponAmount==null">&nbsp; ¥0.00  </span>
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl highlight">实际支付金额</span> 

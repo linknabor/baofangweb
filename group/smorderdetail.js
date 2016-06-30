@@ -28,7 +28,7 @@ avalon.ready(function() {
             o.orderItems = n.result;
             o.totalCount = o.orderItems.length;
             o.needPayPrice = parseFloat(o.order.totalAmount) - parseFloat(o.order.discountAmount);
-            o.totalPrice = o.needPayPrice + o.order.shipFee;
+            o.totalPrice = o.order.price;
 //            o.totalPrice = o.totalPrice.toFixed(2);
             
         },

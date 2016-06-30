@@ -3,6 +3,7 @@ avalon.ready(function() {
 		o.orderId=getUrlParam("orderId");
 		o.type=getUrlParam("type");
 		o.marketBuy = getUrlParam("marketBuy");
+		
 	}
 	function notifyPaySuccess() {
 		var url ="notifyPayed/"+o.orderId;
@@ -23,7 +24,7 @@ avalon.ready(function() {
 			link=MasterConfig.C('basePageUrl')+"group.html?groupId="+order.groupId;
 		}
 		if(o.marketBuy){
-			link=MasterConfig.C('basePageUrl')+"group/onsalesindex.html";
+			link=MasterConfig.C('basePageUrl')+"home/index.html";
 		}
 
 		var desc="分享给小伙伴们一个超赞的限时特惠活动！";

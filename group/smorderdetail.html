@@ -196,26 +196,26 @@
 		<span class="fr">
 			<span class="fs12">共{{totalCount}}个商品</span>
 			<span class="total fs15">合计</span>
-			<span class="fs20" style="margin-right: 5px;">¥&nbsp;{{order.totalAmount}}</span>
+			<span class="fs20" style="margin-right: 5px;">¥&nbsp;{{order.totalAmount.toFixed(2)}}</span>
 		</span>
 	</div>
 <!--	当满减底价为0或者为0.0时不显示活动信息-->
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl">活动优惠</span> 
 		<!-- <span class="baoyou_desc" >满{{collocation.satisfyAmount}}减{{collocation.discountAmount}}</span> -->
-		<span class="fr highlight">&nbsp; -¥{{order.discountAmount}}  </span>
+		<span class="fr highlight">&nbsp; -¥{{order.discountAmount.toFixed(2)}}  </span>
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl">优惠后金额</span> 
-		<span class="fr highlight">&nbsp; ¥{{needPayPrice}}  </span>
+		<span class="fr highlight">&nbsp; ¥{{needPayPrice.toFixed(2)}}  </span>
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl">配送费</span> 
-		<span class="fr highlight">&nbsp; ¥{{order.shipFee}}  </span>
+		<span class="fr highlight">&nbsp; ¥{{order.shipFee.toFixed(2)}}  </span>
 	</div>
 	<div class="line p15 fs15" style="height:20px;text-align:center" ms-visible="collocation.satisfyAmount>0">
 		<span class="fl">合&nbsp;&nbsp;计</span> 
-		<span class="fr highlight">&nbsp; ¥{{totalPrice}}  </span>
+		<span class="fr highlight">&nbsp; ¥{{totalPrice.toFixed(2)}}  </span>
 	</div>
 	<div style="height: 30px;"></div>
 	<div class="receiver_area">

@@ -56,6 +56,7 @@ avalon.ready(function() {
         	        e = function(n) {
         	            console.log(JSON.stringify(n));
         	            alert("发货成功！");
+        	            location.reload();
         	        },
         	        r = function(n) {
         	        	alert(n.message);

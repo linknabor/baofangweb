@@ -3,7 +3,7 @@ avalon.ready(function() {
 
     function getParam(){
     	//o.collId=getUrlParam("collId");
-    	o.collId=2;
+    	o.collId=1;
 //    	o.ruleId=getUrlParam("ruleId");
     }
 	function getCollocation() {

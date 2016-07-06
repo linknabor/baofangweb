@@ -157,7 +157,7 @@ avalon.ready(function() {
     			o.logisticeFee=o.collocation.shipAmount;
     		}
     		if((o.totalAmount-o.disCountAmount)>0) {
-    		o.needPayPrice=(o.totalAmount-o.disCountAmount).toFixed(2);
+                o.needPayPrice=(o.totalAmount-o.disCountAmount).toFixed(2);
     		} else {
     		    o.needPayPrice = "0.01";
     		}

@@ -14,7 +14,9 @@
 		<script src="../static/js/common_v3.js"></script>
 		<script type="text/jscript" src="../static/plugin/jquery.datetimepicker.js"></script>
 		<link rel="stylesheet" href="../static/plugin/jquery.datetimepicker.css">
-		<script src="repairSubmit.js?v=4"></script>
+	    <link rel="stylesheet" href="../static/css/common/address.css">
+		<script src="../common/address.js"></script>
+		<script src="repairSubmit.js?v=3"></script>
 	</head>
 	<style type="text/css">
 	 	[ms-controller]{display:none}
@@ -298,6 +300,8 @@
 			</div>
 		</section>
 				
-		<div ms-include-src="'../common/address.html'"></div>
+		<section ms-visible="currentPage=='addresses'">
+			<div ms-include-src="'../common/address.html'"></div>
+		</section>
 	</body>
 </html>

@@ -11,6 +11,7 @@
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/avalon.js"></script>
 		<script src="static/js/common_v3.js"></script>
+		<script src="common/commonaddress.js"></script>
 		<script src="xiyi_pay.js?v=12111111"></script>
 		<style type="text/css">
 			.bg{
@@ -215,7 +216,8 @@
 						<p class="fl w20 fontr">×{{order.count}}</p>
 						<p class="fl w20 fontr">￥{{order.price}}</p>
 					</div>
-					<div class="orderitem" ms-visible="coupon.amount">优惠:<span class="fr">-￥{{coupon.amount}}</span></div>
+                    <div class="orderitem" ms-visible="coupon.amount">优惠:<span class="fr">-￥{{coupon.amount}}</span></div>
+                    <div class="orderitem" ms-visible="shipFeeAmount">运费:<span class="fr">￥{{shipFeeAmount}}</span></div>
 					
 					<div class="realpay">实付金额: ￥ {{amountStr}}</div>
 				</div>
@@ -227,14 +229,10 @@
 				<div id="foot"><div class="paybtn fs18" ms-click="pay">立即支付</div></div>
 			</div>
 		</section>
-		<div ms-include-src="'common/address.html'"></div>
-		
-		<section ms-visible="currentPage=='coupons'">
-			<div ms-include-src="'common/coupons.html'"></div>
-		</section>
+        <div ms-include-src="'common/addressv2.html'"></div>
+        <div ms-include-src="'common/widget.html'"></div>
+		<div ms-include-src="'common/couponv2.html'"></div>
 		<script type="text/jscript" src="static/plugin/jquery.datetimepicker.js"></script>
 		<link rel="stylesheet" href="static/plugin/jquery.datetimepicker.css">
-    	<link rel="stylesheet" href="static/css/common/coupons.css"></link>
-		<script src="common/coupons.js"></script>
 	</body>
 </html>

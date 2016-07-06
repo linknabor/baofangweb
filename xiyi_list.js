@@ -44,13 +44,12 @@ avalon.ready(function(){
 	});
 	initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
 	avalon.scan(document.body);
-	
-    common.invokeApi("POST","yunxiyi/bills/0",null,null,function(n){
-        o.orderList=n.result;
-        o.inited = true;
-    },function(n){
-        o.inited = true;
-        alert("订单数据获取失败，请稍后重试！");
-    })
+	common.invokeApi("POST","yunxiyi/bills/0",null,null,function(n){
+		o.orderList=n.result;
+		o.inited = true;
+	},function(n){
+		o.inited = true;
+		alert("订单数据获取失败，请稍后重试！");
+	})
     
 })

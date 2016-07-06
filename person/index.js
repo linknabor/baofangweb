@@ -78,7 +78,7 @@ avalon.ready(function() {
     updateCouponStatus();
     avalon.scan(document.body);
     initWechat(['onMenuShareTimeline','onMenuShareAppMessage']);
-    initShareConfig("我的社区，我的家，我在合协社区！",MasterConfig.C("basePageUrl")+"person/index.html?v=20160301",MasterConfig.C("basePageUrl")+"/static/images/share_logo4.png","合协社区，我的生活管家");
+    initShareConfig("我的社区，我的家，我在我家大楼！",MasterConfig.C("basePageUrl")+"person/index.html?v=20160301",MasterConfig.C("basePageUrl")+"/static/images/share_logo4.png","我家大楼，我的生活管家");
     FastClick.attach(document.body);
     common.setTitle("个人中心");
 });

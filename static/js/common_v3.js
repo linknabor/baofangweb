@@ -1,31 +1,31 @@
 var MasterConfig = function() {
     var t = {
-                
-        //baseUrl: "http://www.e-shequ.com/chunhui/wechat/hexie/wechat/",
-        //basePageUrl:"http://www.e-shequ.com/chunhui/weixin/",
+
+        //baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
+        //basePageUrl:"http://www.e-shequ.com/baofang/weixin/",
         //appId: "wx89c743b2fa762a2c",
-        
+
         //baseUrl: "http://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"http://www.e-shequ.com/wechat-sit/hexie/",
 
         baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
         basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
         appId: "wx95f46f41ca5e570e",
-        
+
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
         oauthUrlPostFix:"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect",
-        bindAppId: "wxa48ca61b68163483",
-        
+        bindAppId: "wx9ffe0a2b5a64a285",
+
         baidu_map_key:"RUWUgrEEF5VjoaWsstMMZwOD",
-        shop_name: "合协",
-        
+        shop_name: "大楼",
+
         is_debug:true,
         statistics: {
-            baidu_code: "23a1ae591bf2274b3024408e7e3a1fac",
+            baidu_code: "62ff8bd29967ed5ee536babb82aa8d64",
             cnzz_script: '<script src="http://s11.cnzz.com/stat.php?id=1256090623&web_id=1256090623" language="JavaScript"></script>'
         }
     },
-    
+
     e = {};
     return e.C = function(e) {
         return t[e]
@@ -73,19 +73,19 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
     if(!content){
         content = "";
     }
-    var chatHtml = 
+    var chatHtml =
             "<div class='weui_mask' id='dialog_overlay'></div>                                                   "
             +"<div class='weui_dialog'>                                                       "
             +"  <div class='dialog_title'>"+title+"</div>                                          "
             +"  <div class='dialog_content'>                                                  "
-			+"		<textarea class='dialog_textarea' rows='4' placeholder='"+placeholder+"' id='dialog_content'>"+content+"</textarea>"
+            +"      <textarea class='dialog_textarea' placeholder='"+placeholder+"' id='dialog_content'>"+content+"</textarea>"
             +"  </div>                                                                        "
             +"  <div class='dialog_btn_bar'>                                                  "
             +"      <div class='dialog_btn' id='dialog_cancel'>取消</div>                     "
             +"      <div class='dialog_btn' id='dialog_confirm'>确定</div>                    "
             +"  </div>                                                                        "
             +"</div>                                                                          ";
-        
+
     $("#dialog").html('');
     var loadHtml = "";
     $("#dialog").html(chatHtml);
@@ -103,22 +103,22 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
     });
 }
 Date.prototype.format = function(fmt){
-	  var o = {   
-	    "M+" : this.getMonth()+1,               
-	    "d+" : this.getDate(),                   
-	    "h+" : this.getHours(),                 
-	    "m+" : this.getMinutes(),              
-	    "s+" : this.getSeconds(),                
-	    "q+" : Math.floor((this.getMonth()+3)/3), 
-	    "S"  : this.getMilliseconds()          
-	  };   
-	  if(/(y+)/.test(fmt))   
-	    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-	  for(var k in o)   
-	    if(new RegExp("("+ k +")").test(fmt)) 
+	  var o = {
+	    "M+" : this.getMonth()+1,
+	    "d+" : this.getDate(),
+	    "h+" : this.getHours(),
+	    "m+" : this.getMinutes(),
+	    "s+" : this.getSeconds(),
+	    "q+" : Math.floor((this.getMonth()+3)/3),
+	    "S"  : this.getMilliseconds()
+	  };
+	  if(/(y+)/.test(fmt))
+	    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+	  for(var k in o)
+	    if(new RegExp("("+ k +")").test(fmt))
 	            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ?
-	                     (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
-	 return fmt;   
+	                     (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+	 return fmt;
 }
 function dealWithAjaxData(o, e, i, r) {
     if (common.log(o, e), e.success) {
@@ -186,7 +186,7 @@ function initShareConfig(title,link,img,desc){
 	if(link.indexOf(MasterConfig.C("basePageUrl"))>=0
 			&&link.indexOf('shareCode')<0
 			&&getCookie("shareCode")!=null&&getCookie("shareCode")!=''){
-		
+
 		if(link.indexOf('?')<0) {
 			link = link +"?";
 		}
@@ -195,7 +195,7 @@ function initShareConfig(title,link,img,desc){
 		}
 		link = link + "shareCode="+getCookie("shareCode");
 	}
-	
+
 	wx.ready(function(){
 		wx.onMenuShareTimeline({
 		    title:title, // 分享标题
@@ -331,7 +331,7 @@ var common = {
             end = MasterConfig.C("oauthUrlPostFix");
             location.href = t + "appid=" + MasterConfig.C("appId") + "&redirect_uri=" + encodeURIComponent(n) +end+ "#wechat_redirect"
         } else common.alert("start api login"),
-        this.invokeApi("POST", "login/" + o, null,
+        this.invokeApi("POST", "loginBaofang/" + o, null,
         function() {
             AJAXFlag = !1
         },
@@ -409,8 +409,8 @@ var common = {
         end = MasterConfig.C("oauthUrlPostFix");
         location.href = t + "appid=" + e + "&redirect_uri=" + encodeURIComponent(n) +end+ "#wechat_redirect";
     },
-    
-    
+
+
 };
 
 var commonui = {

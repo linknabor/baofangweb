@@ -44,11 +44,19 @@ function computeAmount(){
 		amount = amount - o.model.coupon.amount;
 	}
 	if(amount>0) {
-        o.model.realAmount = amount.toFixed(2);
+	o.model.realAmount = amount.toFixed(2);
     } else {
         o.model.realAmount = "0.01";
     }
 }
+
+function getParam(){
+	o.marketBuy=getUrlParam("marketBuy");
+	if(o.marketBuy){
+		o.logisticFeeDisplay='配送费';
+	}
+}
+
 avalon.ready(function() {
 
 	function queryBuyInfo(){
@@ -60,9 +68,7 @@ avalon.ready(function() {
 			console.log("success:" + JSON.stringify(n));
 			o.model.collocation = n.result.collocation;
 			o.model.items = n.result.cart.items;
-			if(n.result.address){
-				o.addr.checkedAddress = n.result.address;
-			}
+			o.model.address = n.result.address;
 			computeAmount();
             initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
     	},
@@ -99,6 +105,15 @@ avalon.ready(function() {
     }
     
     function requestPay() {
+    	initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
+    	commonui.showAjaxLoading();
+		$("#zzmb").show();
+    	if($(window).height()>$(document).height()){
+    		$(".zzmb").height($(window).height());
+    	}else{
+    		$(".zzmb").height($(document).height());
+    	}
+    	
     	var n = "GET",
         a = "/requestPay/"+o.model.order.id,
         i = null,
@@ -113,7 +128,19 @@ avalon.ready(function() {
         	        // 支付成功后的回调函数
         		   alert("下单成功！");
 		    	   location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type;
-        	   }
+        	   },
+        	   fail:function(res) {
+         	    	alert(JSON.stringify(res));
+         	    	o.control.paying=false;
+		        	commonui.hideAjaxLoading();
+		        	$("#zzmb").hide();
+	      	    },
+	      	    cancel:function(res){
+					console.log(JSON.stringify(n));
+					o.control.paying=false;
+			        commonui.hideAjaxLoading();
+			        $("#zzmb").hide();
+				}
         	});
         },
         r = function(n) {
@@ -146,6 +173,9 @@ avalon.ready(function() {
         detaillocation:'',
         disCountAmount:0,
         disLogisticsFee:true,
+        marketBuy:0,		//是否为超时快购
+        logisticFeeDisplay:'快递费',
+        
         model:{
         	type:3,/**默认特卖*/
         	collocation: {},
@@ -170,15 +200,14 @@ avalon.ready(function() {
 	        		return;
 	        	}
 	        	var order = {
-	        			serviceAddressId:o.addr.checkedAddress.id,
+	        			serviceAddressId:o.model.address.id,
 	        			memo:o.model.comment,
 	        			receiveTimeType:o.model.receiveTimeType
 	        	 }
 	        	if(o.model.coupon != null) {
 	        		order.couponId=o.model.coupon.id;
-	        	}
-	        	;
-	        	if(o.addr.checkedAddress==null||o.model.address.id==0){
+	        	};
+	        	if(o.model.address.id==0){
 	        		alert("请选择地址！");
 	        		return;
 	        	}
@@ -186,9 +215,12 @@ avalon.ready(function() {
 	        },
 	        showAddress:function(){
 	        	o.control.currentPage='addrlist';
-	        	if(o.addr.addresses.length==0) {
-	        		queryAddress();
-	        	}
+	        	chooseAddress(function(address){
+                    if(address){
+                        o.model.address=address;
+                    }
+                    o.control.currentPage='main';
+                });
 	        },
 	        showCoupons:function(){
 	        	o.control.currentPage='coupons';
@@ -200,7 +232,6 @@ avalon.ready(function() {
 	            this.focus();
 	        }
         },
-        addr:addrModel,
         /** 选择送货日期 */
         datechoooser:{
         	time: '任何时间',
@@ -243,18 +274,10 @@ avalon.ready(function() {
         }
     });
 
-    o.$watch("location", function(t){
-    	if(o.addr.city.name == null||o.addr.county.name == null||o.addr.city.name == ""||o.addr.county.name == "") {
-    		alert('请先选择你所在的区域！');
-    		return;
-    	}
-        if(o.location!=null && o.location.length>=2 && o.location!=o.addr.suggestion._name) {
-        	getSuggestion(o.addr.city.name,o.location);
-        }
-    });
     avalon.scan(document.body);
     if(common.checkRegisterStatus()) {
     	queryBuyInfo();
     	queryCoupon();
     }
+    getParam();
 });

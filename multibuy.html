@@ -150,11 +150,15 @@
 	    background-size: 7px 12px;
 	    background-position: right center;
 	}
+	.zzmb{z-index:100000; position: absolute; top:0; left:0; -moz-opacity:0.65; opacity:0.65; filter: alpha(opacity=65); background:#000; width:100%; height:100%;display:block}
 </style>
 </head>
 
 <body ms-controller="root">
 	<!-- load -->
+	
+	<div id="zzmb" class="zzmb" style="display:none;position:fixed;"></div>
+	
 		<div class="load6" id="LoadingBar">
 			<div class="bounce1"></div>
 			<div class="bounce2"></div>
@@ -182,12 +186,12 @@
 	<div class="addr_area" ms-click="op.showAddress">
 		<div style="background:url(static/img/bg_line_location_top.png) repeat-x;height:2px;background-size: 100% 2px;">&nbsp;</div>
 		<div style="text-align:center;background-color: #f7f7f1;">
-			<a href="#" class="btn-plain add_btn_style" ms-visible="!addr.checkedAddress.receiveName" style="">选择收货地址</a>
+			<a href="#" class="btn-plain add_btn_style" ms-visible="!model.address.receiveName" style="">选择收货地址</a>
 		</div>
-		<a  href="#" class="menu-link fs14 addr_detail" ms-visible="addr.checkedAddress.receiveName">
-			<span style="color:#3b3937;">{{addr.checkedAddress.receiveName}}</span>
-			<span style="margin-left:15px;color:#3b3937;">{{addr.checkedAddress.tel}}</span>
-			<div class="addr_location">{{addr.checkedAddress.province}}{{addr.checkedAddress.city}}{{addr.checkedAddress.county}}（{{addr.checkedAddress.xiaoquName}}）{{addr.checkedAddress.detailAddress}}</div>
+		<a  href="#" class="menu-link fs14 addr_detail" ms-visible="model.address.receiveName">
+			<span style="color:#3b3937;">{{model.address.receiveName}}</span>
+			<span style="margin-left:15px;color:#3b3937;">{{model.address.tel}}</span>
+			<div class="addr_location">{{model.address.province}}{{model.address.city}}{{model.address.county}}（{{model.address.xiaoquName}}）{{model.address.detailAddress}}</div>
 		</a>
 		<div style="background:url(static/img/bg_line_location_bottom.png) repeat-x;height:2px;background-size: 100% 2px;">&nbsp;</div>
 	</div>
@@ -197,7 +201,7 @@
 			<div class="product_name">{{item.ruleName}}</div>
 			<div class="product_pri_area">
 				<div class="fl fs16 highlight pt5"> ¥{{item.price}} </div>
-				<div class="fl fs13" style="margin-left: 10px;padding-top: 7px;color:#888888"> <del>¥{{item.oriPrice}}</del> </div>
+				<!-- <div class="fl fs13" style="margin-left: 10px;padding-top: 7px;color:#888888"> <del>¥{{item.oriPrice}}</del> </div> -->
 				<div class="fr fs13" style="padding-top: 7px;color:#888888">X {{item.count}}</div>
 			</div>
 		</div>
@@ -218,7 +222,7 @@
 	</div>
 <!--	当满免邮费价为0或者为0.0时不显示包邮信息-->
 	<div class="line p15 fs15" style="height:20px">
-		<span class="fl">快递费</span> 
+		<span class="fl">{{logisticFeeDisplay}}</span> 
 		<span class="fl baoyou_desc" ms-visible="model.collocation.freeShipAmount>0">满{{model.collocation.freeShipAmount}}包邮</span>
 		<span class="fr"> ¥&nbsp;{{model.logisticsFee}}  </span>
 	</div>
@@ -232,7 +236,7 @@
 			<span class="fl highlight fs15">支付金额</span> 
 			<span class="fr highlight fs20 mlr10"> ¥&nbsp;{{model.realAmount}}  </span>
 	</div>
-	<div class="info-wrap bgwhite">
+	<div class="info-wrap bgwhite" ms-visible="marketBuy==0">
 		<div class="section-title">收货时间</div>
 		<a href="#" class="menu-link custom-menu-link fs14" style="height:30px" ms-click="datechoooser.showModal"><i class="address_icon time-icon fl"></i>{{datechoooser.time}}</a>
 	</div>
@@ -252,7 +256,7 @@
 	</div>
 </section>
 
-<div ms-include-src="'common/commonaddress.html?v=20151217'"></div>
+<div ms-include-src="'common/address.html'"></div>
 
 <section ms-visible="control.currentPage=='coupons'">
 	<div ms-include-src="'common/coupons.html'"></div>

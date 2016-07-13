@@ -2,14 +2,31 @@ var o;
 var payItem = getUrlParam("item");
 avalon.ready(function() {
     function initInfo(){
+    	
+    	commonui.showAjaxLoading();
+    	$("#zzmb").show();
+    	
         common.invokeApi("GET","baojie/normal/payinfo/"+o.serviceItemId,null,null,function(n) {
-            console.log(JSON.stringify(n));
+           
+        	console.log(JSON.stringify(n));
             o.item=n.result.item;
             o.address=n.result.address;
+            
+        	if($(window).height()>$(document).height()){
+        		$(".zzmb").height($(window).height());
+        	}else{
+        		$(".zzmb").height($(document).height());
+        	}
             computeAmount();
             couponUtil.setupCoupons(n.result.coupons);
+            
+            
         },
         function() {
+        	
+        	commonui.hideAjaxLoading();
+            $("#zzmb").hide();
+        	
         })
     }
     function computeAmount(){
@@ -37,6 +54,7 @@ avalon.ready(function() {
 		bill.memo = o.memo; 
 		bill.addressId = o.address.id;
 		bill.count = o.hours;
+		bill.itemType = 302;
 		if(!bill.addressId||bill.addressId<=0) {
 			alert("请选择地址");
 			return;
@@ -55,6 +73,16 @@ avalon.ready(function() {
 		});
 	}
 	function requestPay() {
+
+		initWechat(['chooseWXPay']);
+		commonui.showAjaxLoading();
+		$("#zzmb").show();
+		if($(window).height()>$(document).height()){
+			$(".zzmb").height($(window).height());
+		}else{
+			$(".zzmb").height($(document).height());
+		}
+		
         common.invokeApi("POST", "/baojie/pay/"+o.billId, null, null, function(n) {
             wx.chooseWXPay({
               "timestamp":n.result.timestamp,
@@ -67,11 +95,26 @@ avalon.ready(function() {
                     // 支付成功后的回调函数
                    alert("下单成功！");
                    location.href="home/baojie1/success.html?oId="+o.billId;
-               }
+               },fail:function(res) {
+         	    	alert(JSON.stringify(res));
+         	    	o.paying=false;
+		        	commonui.hideAjaxLoading();
+		        	$("#zzmb").hide();
+	      	    },
+	      	    cancel:function(res){
+					console.log(JSON.stringify(n));
+					o.paying=false;
+			        commonui.hideAjaxLoading();
+			        $("#zzmb").hide();
+				}
             });
         }, function(n) {
+        	
+        	commonui.hideAjaxLoading();
+            $("#zzmb").hide();
             alert(n.message==null?"支付请求失败，请稍后重试！":n.message);
             o.paying=false;
+            
         })
     }
 	o = avalon.define({

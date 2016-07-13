@@ -39,11 +39,26 @@ function computeAmount(){
     o.amountStr = o.realamount.toFixed(2);
 }
 function queryCoupon() {
+	
+	commonui.showAjaxLoading();
+	$("#zzmb").show();
+	if($(window).height()>$(document).height()){
+		$(".zzmb").height($(window).height());
+	}else{
+		$(".zzmb").height($(document).height());
+	}
     common.invokeApi("GET", "coupon/valid4HomeCart", null, null, function(n){
     	console.log(JSON.stringify(n));
         couponUtil.setupCoupons(n.result);
+        commonui.hideAjaxLoading();
+        $("#zzmb").hide();
     	o.couponNum=couponUtil.getCouponNum();
-    }, function(n){alert('获取现金券信息失败！')});
+    	
+    }, function(n){
+    	commonui.hideAjaxLoading();
+        $("#zzmb").hide();
+    	alert('获取现金券信息失败！');
+    });
 }
 avalon.ready(function(){
 	function initOrder(){
@@ -101,8 +116,16 @@ avalon.ready(function(){
 		
 	}
 	function requestPay() {
-	    initWechat(['chooseWXPay']);
-        common.invokeApi("POST", "/yunxiyi/pay/"+o.orderId, null, null, function(n) {
+		
+		initWechat(['chooseWXPay']);
+		commonui.showAjaxLoading();
+		$("#zzmb").show();
+		if($(window).height()>$(document).height()){
+    		$(".zzmb").height($(window).height());
+    	}else{
+    		$(".zzmb").height($(document).height());
+    	}
+		common.invokeApi("POST", "/yunxiyi/pay/"+o.orderId, null, null, function(n) {
         	wx.chooseWXPay({
               "timestamp":n.result.timestamp,
               "nonceStr":n.result.nonceStr,
@@ -114,9 +137,24 @@ avalon.ready(function(){
         	        // 支付成功后的回调函数
         		   alert("下单成功！");
 		    	   location.href="home/xiyi/success.html?oId="+o.orderId;
-        	   }
+        	   },
+	        	fail:function(res) {
+	     	    	alert(JSON.stringify(res));
+	     	    	o.paying=false;
+		        	commonui.hideAjaxLoading();
+		        	$("#zzmb").hide();
+	      	    },
+	      	    cancel:function(res){
+					console.log(JSON.stringify(n));
+					o.paying=false;
+			        commonui.hideAjaxLoading();
+			        $("#zzmb").hide();
+				}
         	});
         }, function(n) {
+        	
+        	commonui.hideAjaxLoading();
+	        $("#zzmb").hide();
         	alert(n.message==null?"支付请求失败，请稍后重试！":n.message);
         	o.paying=false;
         })
@@ -161,6 +199,7 @@ avalon.ready(function(){
 			},null);
 		},
 		pay:function(){
+			
 			if(o.paying){
 				alert("提交中，请稍后再试！");
 				return;

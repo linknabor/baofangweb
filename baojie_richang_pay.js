@@ -19,7 +19,9 @@ avalon.ready(function() {
         	}
             computeAmount();
             couponUtil.setupCoupons(n.result.coupons);
-            
+            commonui.hideAjaxLoading();
+            $("#zzmb").hide();
+        	
             
         },
         function() {

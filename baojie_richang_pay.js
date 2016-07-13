@@ -11,14 +11,13 @@ avalon.ready(function() {
         	console.log(JSON.stringify(n));
             o.item=n.result.item;
             o.address=n.result.address;
-            
         	if($(window).height()>$(document).height()){
         		$(".zzmb").height($(window).height());
         	}else{
         		$(".zzmb").height($(document).height());
         	}
-            computeAmount();
             couponUtil.setupCoupons(n.result.coupons);
+            computeAmount();
             commonui.hideAjaxLoading();
             $("#zzmb").hide();
         	

@@ -8,8 +8,8 @@ var MasterConfig = function() {
         //baseUrl: "http://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"http://www.e-shequ.com/wechat-sit/hexie/",
 
-        baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
-        basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
+        baseUrl: "http://10.0.9.119",
+        basePageUrl:"http://10.0.9.119",
         appId: "wx95f46f41ca5e570e",
 
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
@@ -43,7 +43,7 @@ var Config = function() {
             no_goods: "更多新品正在陆续推出..."
         },
         user_info: {
-            avatar: "http://www.e-shequ.com/baofang/weixin/static/images/logo.jpg",
+            avatar: "http://test.e-shequ.com/baofang/weixin/static/images/logo.jpg",
             nickname: "游客",
             levelname: "普通会员"
         },
@@ -53,7 +53,7 @@ var Config = function() {
             2 : "大楼VIP"
         },
         coupon:{
-            seedImg:"http://www.e-shequ.com/baofang/weixin/static/img/banner/banner_market_shuiguo.jpg"
+            seedImg:"http://test.e-shequ.com/baofang/weixin/static/img/banner/banner_market_shuiguo.jpg"
         }
     },
     e = {};
@@ -342,15 +342,15 @@ var common = {
         })
     },
     checkRegisterStatus:function(){
-        if(!getCookie("UID")){
-        	common.login();/**不应该出现*/
-        	return false;
-        }
-        if(!isRegisted()){
-        	alert("请先完成注册！");
-        	toRegisterAndBack();
-        	return false;
-        }
+//        if(!getCookie("UID")){
+//        	common.login();/**不应该出现*/
+//        	return false;
+//        }
+//        if(!isRegisted()){
+//        	alert("请先完成注册！");
+//        	toRegisterAndBack();
+//        	return false;
+//        }
     	return true;
     },
     hasRegister:function(){
@@ -450,5 +450,5 @@ var commonui = {
 }
 
 checkBindAndBind();
-checkCodeAndLogin();
+//checkCodeAndLogin();
 common.setTitle(MasterConfig.C("shop_name") + "社区");

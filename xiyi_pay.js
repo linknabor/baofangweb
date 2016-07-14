@@ -1,50 +1,90 @@
 var o;
-function chooseCoupon(coupon) {
-	if(coupon == null) {
-		o.coupon=null;
-		o.couponDesc = '未使用';
-	} else {
-		o.coupon = coupon;
-		o.couponDesc = "￥"+coupon.amount+"元";
-		
-		o.realamount = o.amount-coupon.amount;
-		if(o.realamount<=0){
-			o.realamount=0.01;
-		}
-		o.amountStr = o.realamount.toFixed(2);
+function chooseAddress(address){
+	if(address){
+		o.address=address;
 	}
-	
 	o.currentPage='main';
 }
+function getShipFee(amount) {
+    if(!o.shipFeeTpl.fee){
+        return 0;
+    }
+    if(o.shipFeeTpl.freeLimit<=amount) {
+        return 0;
+    }
+    if(o.address&&o.shipFeeTpl.freeRegionIds&&o.shipFeeTpl.freeRegionIds.size>0){
+        if($.inArray(o.address.provinceId,o.shipFeeTpl.freeRegionIds)
+            ||$.inArray(o.address.cityId,o.shipFeeTpl.freeRegionIds)
+            ||$.inArray(o.address.countyId,o.shipFeeTpl.freeRegionIds)
+            ||$.inArray(o.address.xiaoquId,o.shipFeeTpl.freeRegionIds)){
+                return 0;
+            }
+    }
+    return o.shipFeeTpl.fee;
+}
 function computeAmount(){
-	filterCouponByAmount(o.amount);
-	o.couponNum=getCouponNum();
+    
+    o.shipFeeAmount = getShipFee(o.amount);
+    o.realamount = o.amount + o.shipFeeAmount;
+	couponUtil.filterCouponByAmount(o.realamount);
+    o.couponNum = couponUtil.getCouponNum();
+    if(o.coupon.amount&&!couponUtil.canUse(o.coupon,o.realamount)){
+        o.coupon = {};
+    }
+    
+    o.realamount = o.coupon.amount ? o.realamount - o.coupon.amount : o.realamount;
+    if(o.realamount<=0){
+        o.realamount=0.01;
+    }
+    o.amountStr = o.realamount.toFixed(2);
 }
 function queryCoupon() {
+	
+	commonui.showAjaxLoading();
+	$("#zzmb").show();
+	if($(window).height()>$(document).height()){
+		$(".zzmb").height($(window).height());
+	}else{
+		$(".zzmb").height($(document).height());
+	}
     common.invokeApi("GET", "coupon/valid4HomeCart", null, null, function(n){
-    	setupCoupons(n.result);
-		computeAmount();
-    	o.couponNum=getCouponNum();
-    }, function(n){alert('获取现金券信息失败！')});
+    	console.log(JSON.stringify(n));
+        couponUtil.setupCoupons(n.result);
+        commonui.hideAjaxLoading();
+        $("#zzmb").hide();
+    	o.couponNum=couponUtil.getCouponNum();
+    	
+    }, function(n){
+    	commonui.hideAjaxLoading();
+        $("#zzmb").hide();
+    	alert('获取现金券信息失败！');
+    });
 }
 avalon.ready(function(){
 	function initOrder(){
 		var n="GET",
 		a="home/viewCartWithAddr",
 		i=null,
+		
 		e=function(n){
 			if(!n.result.address){
 				o.address = {};
 			} else {
 				o.address=n.result.address;
+				o.freight=n.result.freight;
+				
+			}
+			if(!n.result.shipFee){
+			    o.shipFeeTpl = {};
+			} else {
+			    o.shipFeeTpl = n.result.shipFee;
 			}
 			
 			o.orderlist=n.result.cart.items;
 			for(var i=0;i<o.orderlist.length;i++){
 				o.amount+=o.orderlist[i].count*o.orderlist[i].price;
 			}
-			o.realamount = o.amount;
-			o.amountStr = o.realamount.toFixed(2);
+            computeAmount();
 		},
 		r=function(){
             o.orderlist = [];
@@ -76,7 +116,16 @@ avalon.ready(function(){
 		
 	}
 	function requestPay() {
-        common.invokeApi("POST", "/yunxiyi/pay/"+o.orderId, null, null, function(n) {
+		
+		initWechat(['chooseWXPay']);
+		commonui.showAjaxLoading();
+		$("#zzmb").show();
+		if($(window).height()>$(document).height()){
+    		$(".zzmb").height($(window).height());
+    	}else{
+    		$(".zzmb").height($(document).height());
+    	}
+		common.invokeApi("POST", "/yunxiyi/pay/"+o.orderId, null, null, function(n) {
         	wx.chooseWXPay({
               "timestamp":n.result.timestamp,
               "nonceStr":n.result.nonceStr,
@@ -88,9 +137,24 @@ avalon.ready(function(){
         	        // 支付成功后的回调函数
         		   alert("下单成功！");
 		    	   location.href="home/xiyi/success.html?oId="+o.orderId;
-        	   }
+        	   },
+	        	fail:function(res) {
+	     	    	alert(JSON.stringify(res));
+	     	    	o.paying=false;
+		        	commonui.hideAjaxLoading();
+		        	$("#zzmb").hide();
+	      	    },
+	      	    cancel:function(res){
+					console.log(JSON.stringify(n));
+					o.paying=false;
+			        commonui.hideAjaxLoading();
+			        $("#zzmb").hide();
+				}
         	});
         }, function(n) {
+        	
+        	commonui.hideAjaxLoading();
+	        $("#zzmb").hide();
         	alert(n.message==null?"支付请求失败，请稍后重试！":n.message);
         	o.paying=false;
         })
@@ -101,26 +165,32 @@ avalon.ready(function(){
 		paying:false,
 		address:{
 		},
+		freight:0,
 		amount:0,
 		realamount:0,
 		amountStr:0,
 		memo:"",
 		coupon:{},
+		shipFeeTpl:{},
+		shipFeeAmount:0,
 		couponNum:0,
 		requireDate:'',
         showAddress:function(){
-        	
         	common.checkRegisterStatus();
-        	o.currentPage="";
-        	chooseAddress(function(address){
-                if(address){
-                    o.address=address;
-                }
-                o.currentPage='main';
+        	addrUtil.chooseAddress(function(addr){
+                o.currentPage="main";
+                o.address=addr;
             });
+            o.currentPage="";
         },
         showCoupons:function(){
-        	o.currentPage='coupons';
+        	o.currentPage="";
+            couponUtil.showCouponList(function(coupon){
+                o.currentPage="main";
+                o.coupon = coupon == null ? null : coupon;
+                o.couponDesc= coupon == null ? '未使用' : "￥"+coupon.amount+"元";
+                computeAmount();
+            });
         },
 		orderlist:[],
 		showMemo:function(){
@@ -129,6 +199,7 @@ avalon.ready(function(){
 			},null);
 		},
 		pay:function(){
+			
 			if(o.paying){
 				alert("提交中，请稍后再试！");
 				return;
@@ -144,15 +215,15 @@ avalon.ready(function(){
 	avalon.scan(document.body);
 	initOrder();
 	queryCoupon();
-	initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
+	
 	$('#datetimepicker2').datetimepicker({
     	onChangeDateTime:function(x){
     		var dt = x.dateFormat('Y-m-d H:i');
     		var time = x.getTime()-new Date().getTime();
     		if(time<0||time>3600000*24*7) {
     			alert("服务时间只能选择今天之后7天");
-    		} else if(time<7200000) {
-    			alert("您必须提前两个小时下单!");
+    		} else if(time<14400000) {
+    			alert("您必须提前四个小时下单!");
     		} else if(o.requireDate!=dt){
     			o.requireDate=dt;
     		}

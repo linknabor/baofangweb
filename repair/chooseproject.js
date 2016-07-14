@@ -4,7 +4,8 @@ var typeConfig={
     	3:["客厅卧室维修","images/icon_btn_ketingweixiu_03.png"],
     	4:["强弱电维修","images/icon_btn_qiangruodianweixiu_03.png"],
     	5:["门窗维修","images/icon_btn_menchuanweixiu_03.png"],
-    	6:["家电","images/icon_btn_jiadianweixiu_03.png"]
+        6:["其它维修","images/icon_btn_qitaweixiu_03.png"],
+        7:["家电","images/icon_btn_jiadian.png"]
     };
 avalon.ready(function() {
     function queryProjects() {

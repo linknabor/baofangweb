@@ -1,79 +1,51 @@
 var page = 0;
 avalon.ready(function() {
 	function query(type){
-		
-		var n = "GET",
-        a = "messages/"+page,
-        i = null,
-        e = function(n) {
+        common.invokeApi("GET", "messages/"+page, null, null, function(n) {
 			console.log(JSON.stringify(n));
 			o.zixuns = n.result;
 			page++;
-		},
-        r = function() {
-        	alert("加载消息失败！");
-        };
-        common.invokeApi(n, a, i, null, e, r)
+		}, function() {
+        })
+	}
+	function queryUserInfo(){
+		common.invokeApi("GET","userInfo",null,null, function(n) {
+			console.log(JSON.stringify(n));
+			o.city=n.result.city;
+			o.xiaoquName=n.result.xiaoquName;
+		},function(){
+		})
 	}
 	function getBannerType() {
-        var n = "GET",
-        a = "banner/"+o.bannerType,
-        i = null,
-        e = function(n) {
+        common.invokeApi("GET", "banner/3", null, null, function(n) {
             o.banners = n.result;
-        },
-        r = function() {
-    		alert("获取banner异常");
-        };
-        common.invokeApi(n, a, i, null, e, r)
+            initSwiper();
+        }, function() {})
     }
-	
-	function getAnnoucementList(){
-		
-		var n = "POST",
-        a = "annoucement/getAnnoucementList/",
-        i = null,
-        e = function(n) {
-			console.log(JSON.stringify(n));
-			o.annoucements = n.result;
-			o.annoucement_count = n.result.length;
-			
-        },
-        r = function() {
-        	//alert("加载消息失败！");
-        };
-        common.invokeApi(n, a, i, null, e, r)
-	}
-	
+    
     var a = 0,
     o = avalon.define({
         $id: "root",
-        banners:[],
-        bannerType:3,
-      
        jumpToDetail:function(mid) {
-    	   if(mid==3){
-    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzIyODI2NDM0Nw==&mid=100000005&idx=3&sn=46020924ab058382466d6899ef75ec55&scene=0&previewkey=koIZjFK%2FvSTLuEWTZbl26MwqSljwj2bfCUaCyDofEow%3D#wechat_redirect";
-    	   }else if(mid==4){
-    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzIyODI2NDM0Nw==&mid=100000005&idx=4&sn=eeb1642cd9ed91b40b018fab77d09567&scene=0&previewkey=koIZjFK%2FvSTLuEWTZbl26MwqSljwj2bfCUaCyDofEow%3D#wechat_redirect";
-    	   }else if(mid==5){
-    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzIyODI2NDM0Nw==&mid=100000005&idx=2&sn=bfcfba52f1efdade6cb03a2d498f4803&scene=0&previewkey=koIZjFK%2FvSTLuEWTZbl26MwqSljwj2bfCUaCyDofEow%3D#wechat_redirect";
-    	   }else if(mid==6){
-    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzIyODI2NDM0Nw==&mid=100000005&idx=1&sn=8ce7d193d50794a9645dfdae2eb03ef0&scene=0&previewkey=koIZjFK%2FvSTLuEWTZbl26MwqSljwj2bfCUaCyDofEow%3D#wechat_redirect";
+    	   if(mid==15){
+    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzA3Njk4ODgwMA==&mid=406333448&idx=1&sn=9b318dec9225d8fc1ce28b7a52007773#rd";
+    	   }else if(mid==16){
+    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzA3Njk4ODgwMA==&mid=407927486&idx=1&sn=c1f51214b1947b1b222af9a18e5593d6#rd";
+    	   }else if(mid==17){
+    		   window.location.href="http://mp.weixin.qq.com/s?__biz=MzA3Njk4ODgwMA==&mid=410063784&idx=1&sn=558b520c28f984ad7c0ed2a6ef692faf#rd";
        	   }else{
     		   window.location.href="message.html?messageId="+mid;
     	   }
        },
+       banners:[],
        zixuns:[],
-       zixun_page:0,
-       annoucements: [],
-       annoucement_count :0,
-       
+       city:"上海",
+       xiaoquName:"我家大楼"
     });
+    
     query();
-	getBannerType();
-	getAnnoucementList();
-    initSwiper();    
+    queryUserInfo();
+    getBannerType();
     avalon.scan(document.body),
     FastClick.attach(document.body),
     common.setTitle("社区物业");

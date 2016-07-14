@@ -210,14 +210,14 @@ avalon.ready(function() {
     });
 
     avalon.scan(document.body);
-
-    getParam();
-	getAddress();
-	checkYuyueOrder();
-	
-    if(o.model.ruleId&&o.model.type){
-		queryBuyInfo();
-    }
+    if(checkCodeAndLogin()) {
+    	getParam();
+    	getAddress();
+    	checkYuyueOrder();
+        if(o.model.ruleId&&o.model.type){
+			queryBuyInfo();
+        }
         
+    }
     FastClick.attach(document.body);
 });

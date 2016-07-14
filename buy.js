@@ -250,6 +250,7 @@ avalon.ready(function() {
         }
     });
 
+  
     avalon.scan(document.body);
     if(common.checkRegisterStatus()) {
     	getTypeAndId();

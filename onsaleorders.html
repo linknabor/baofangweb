@@ -45,9 +45,7 @@
 				<div class="ov pb10" style="color: #3b3937">
 					<span class="fl fs13"> ¥{{order.price}} 
 	<!--					<span style="color: #888">（共{{order.count}}件商品）</span>-->
-					</span> 
-					<span class="fr fs13 highlight" ms-if="order.status==9">待发货</span>
-					<span class="fr fs13 highlight" ms-if="order.status!=9">{{order.statusStr}}</span>
+					</span> <span class="fr fs13 highlight">{{order.statusStr}}</span>
 				</div>
 			</div>
 			<div class="lite-divider" style="margin-top: 22px;margin-bottom: 2px;"></div>

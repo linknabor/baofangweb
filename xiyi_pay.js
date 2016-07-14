@@ -49,10 +49,11 @@ function queryCoupon() {
 	}
     common.invokeApi("GET", "coupon/valid4HomeCart", null, null, function(n){
     	console.log(JSON.stringify(n));
-        couponUtil.setupCoupons(n.result);
+        
+		couponUtil.setupCoupons(n.result);
+    	o.couponNum=couponUtil.getCouponNum();
         commonui.hideAjaxLoading();
         $("#zzmb").hide();
-    	o.couponNum=couponUtil.getCouponNum();
     	
     }, function(n){
     	commonui.hideAjaxLoading();

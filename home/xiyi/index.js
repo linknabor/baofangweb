@@ -1,4 +1,4 @@
-var o;
+﻿var o;
 avalon.ready(function(){
 	function queryBanner(){
 		common.invokeApi("GET","pageconfig/xiyi",null,null,function(n){
@@ -43,8 +43,7 @@ avalon.ready(function(){
 		$id:"root",
 		washindex:[],
 		cities:[
-			{id:19,name:"上海"},
-			{id:2,name:"北京"}
+			{id:2,name:"上海"}
 		],
 		maincity:{},
 		currentPage:"list",
@@ -55,10 +54,10 @@ avalon.ready(function(){
 			choseMain(idx);
 		},
 		showXiyiItem:function(idx) {
-			if(idx == 203 || idx == 204){
+			/*if(idx == 203 || idx == 204){
 				alert("该服务即将开通，敬请期待！");
 				return;
-			}
+			}*/
 			location.href="bags.html?type="+idx;
 		},
 		banners:[]

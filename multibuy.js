@@ -105,9 +105,7 @@ avalon.ready(function() {
     }
     
     function requestPay() {
-    	
     	initWechat(['chooseWXPay','onMenuShareTimeline','onMenuShareAppMessage']);
-    	
     	commonui.showAjaxLoading();
 		$("#zzmb").show();
     	if($(window).height()>$(document).height()){
@@ -129,7 +127,7 @@ avalon.ready(function() {
         	   success: function (res) {
         	        // 支付成功后的回调函数
         		   alert("下单成功！");
-		    	   location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type+"&marketBuy="+o.marketBuy;
+		    	   location.href=MasterConfig.C("basePageUrl")+"group/success.html?orderId="+o.model.order.id + "&type="+o.model.type;
         	   },
         	   fail:function(res) {
          	    	alert(JSON.stringify(res));
@@ -277,10 +275,9 @@ avalon.ready(function() {
     });
 
     avalon.scan(document.body);
-//    if(common.checkRegisterStatus()) {
+    if(common.checkRegisterStatus()) {
     	queryBuyInfo();
     	queryCoupon();
-//	}
-    	
+    }
     getParam();
 });

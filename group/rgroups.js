@@ -5,7 +5,7 @@ avalon.ready(function() {
 		var title = "社区团购";
 		var link=MasterConfig.C('basePageUrl')+"group/rgroups.html";
 		var img=MasterConfig.C("basePageUrl")+"static/images/share_tuan.jpg";
-		var desc="【合协社区】为您提供精选商品，团购比特卖更优惠哦！";
+		var desc="【我家大楼】为您提供精选商品，团购比特卖更优惠哦！";
 		initShareConfig(title,link,img,desc);
 	}
     function query() {

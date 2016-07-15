@@ -49,11 +49,10 @@ function queryCoupon() {
 	}
     common.invokeApi("GET", "coupon/valid4HomeCart", null, null, function(n){
     	console.log(JSON.stringify(n));
-        
-		couponUtil.setupCoupons(n.result);
-    	o.couponNum=couponUtil.getCouponNum();
+        couponUtil.setupCoupons(n.result);
         commonui.hideAjaxLoading();
         $("#zzmb").hide();
+    	o.couponNum=couponUtil.getCouponNum();
     	
     }, function(n){
     	commonui.hideAjaxLoading();
@@ -103,8 +102,11 @@ avalon.ready(function(){
 			return;
 		}
 		if(!order.reqTime){
-			alert("请选择服务时间！");
-			return;
+//			alert("请选择服务时间！");
+//			return;
+			var dt = x.dateFormat('Y-m-d H:i');
+			order.reqTime = new Date().getTime() + 14400000;
+    		
 		}
 		o.paying = true;
 		common.invokeApi("POST","yunxiyi/createOrder",order,null,function(n){

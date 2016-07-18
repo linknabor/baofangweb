@@ -104,8 +104,10 @@ avalon.ready(function(){
 		if(!order.reqTime){
 //			alert("请选择服务时间！");
 //			return;
-			var dt = x.dateFormat('Y-m-d H:i');
-			order.reqTime = new Date().getTime() + 14400000;
+//			var dt = x.dateFormat('Y-m-d H:i');
+
+			var reqireTime = new Date().getTime() + 14400000;
+			order.reqTime = dateFormat('y-m-d h:i',reqireTime);
     		
 		}
 		o.paying = true;
@@ -239,4 +241,27 @@ avalon.ready(function(){
     $('#timetaker').click(function(){
     	$('#datetimepicker2').datetimepicker('show');
     });
+    
+    function dateFormat(formatStr, fdate){
+   	 var fTime, fStr = 'ymdhi';
+   	 if (!formatStr)
+   	 	formatStr= "y-m-d h:i";
+   	 if (fdate)
+   	 	fTime = new Date(fdate);
+   	 else
+   	 	fTime = new Date();
+   	 var formatArr = [
+   		 fTime.getFullYear().toString(),
+   		 (fTime.getMonth()+1).toString(),
+   		 fTime.getDate().toString(),
+   		 fTime.getHours().toString(),
+   		 fTime.getMinutes().toString(),
+   	 ];
+   	 for (var i=0; i<formatArr.length; i++){
+   	 	formatStr = formatStr.replace(fStr.charAt(i), formatArr[i]);
+   	 }
+   	 return formatStr;
+   }
+ 
+    
 })

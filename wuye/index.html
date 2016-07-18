@@ -264,16 +264,17 @@
         <span class="xiaoqu">{{xiaoquName}}</span>
     </div>
     <div class="main">
-        <div class="section2">
-            <div class="section2_sub">
-                <img class="section2_sub_img" src="../static/images/wuye/shequgonggao_03.png"/>
-                <div class="section2_sub_txt1">公告</div>
-                <div class="section2_sub_txt2" >
-                    <div style="vertical-align: middle;">
-                        <a href="../wuye/message.html?messageId=21">关于洗衣服务公告</a>
-                    </div>
+        <div class="device">
+            <div class="swiper-container" >
+                <div class="swiper-wrapper">
+                   <div class="swiper-slide"  ms-repeat-banner="banners" > 
+                       <a ms-href="{{banner.bannerUrl}}">
+                            <img ms-src="{{banner.picture}}"  >
+                       </a>
+                   </div>
                 </div>
             </div>
+            <div class="pagination"></div>
         </div>
         <div class="section1">
             <div class="section1_sub1">
@@ -313,18 +314,7 @@
                 </a>
             </div>
         </div>
-        <div class="device">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                   <div class="swiper-slide"  ms-repeat-banner="banners"> 
-                       <a ms-href="{{banner.bannerUrl}}">
-                            <img ms-src="{{banner.picture}}">
-                       </a>
-                   </div>
-                </div>
-            </div>
-            <div class="pagination"></div>
-        </div>
+        
         <div class="section3">
             <div class="section3_title">社区资讯</div>
             <div class="section3_main" >

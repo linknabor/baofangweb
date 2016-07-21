@@ -16,6 +16,12 @@ avalon.ready(function() {
 	            o.quickbills = n.result.bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.totalCount = n.result.total_count;
+	            if(n.result.meet_the_number!=null)
+	            {
+	            	var num = n.result.meet_the_number.split("-");
+	            	o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
+	            	$("#span1").text(o.meet_the_number);
+	            }
 	            if(o.quickbills==null||o.quickbills.size()==0){
 	            	alert("没有查到对应账单，请确认账单号是否正确！");
 	            }
@@ -39,7 +45,15 @@ avalon.ready(function() {
 			console.log(JSON.stringify(n));
 			if(n.result!=null) {
 	            o.bills = n.result.bill_info;
+	            o.carbills = n.result.car_bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
+	            o.permit_skip_car_pay = n.result.permit_skip_car_pay;
+	            if(n.result.meet_the_number!=null)
+	            {
+	            	var num = n.result.meet_the_number.split("-");
+		            o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
+	            }
+	            
 	            o.totalCountNormal = n.result.total_count;
 			} else {
 				o.bills = [];
@@ -56,11 +70,15 @@ avalon.ready(function() {
         $id: "root",
         tabs: [
             {
-                name: '快捷缴费',
+                name: '帐单缴费',
                 active: true
             },
             {
-                name: '账单缴费',
+                name: '物业缴费',
+                active: false
+            },
+            {
+                name: '停车缴费',
                 active: false
             }
         ],
@@ -68,11 +86,16 @@ avalon.ready(function() {
         quickbills:[],
         quickpermit_skip_pay:1,
         
-        
+        meet_the_number:'',
         startDate:"",
         endDate:"",
         totalCount:0,
         totalCountNormal:0,
+		price:0.00,
+		carprice:0.00,
+		quickprice:0.00,
+		totalPrice: 0.00,
+		cartotalPrice:0.00,
         changeTab: function(idx) {
         	
             for (var i = 0, len = o.tabs.length; i < len; i++) {
@@ -83,7 +106,9 @@ avalon.ready(function() {
             isloadPage=false;
         },
         bills: [],
+        carbills: [],
         permit_skip_pay:1,
+        permit_skip_car_pay:1,
         
         
         /**账单**/
@@ -148,27 +173,46 @@ avalon.ready(function() {
         /**快捷**/
         
         select: function(idx) {
-        	var price = 0;
-        	if(o.permit_skip_pay==1) {/*不可跳 必须连续*/
+        	if(o.quickpermit_skip_pay==1) {/*不可跳 必须连续*/
         		for (var i = 0; i <= idx; i++) {
-        			o.bills[i].selected=true;
-        			price+=parseFloat(o.bills[i].fee_price);
+        			if(!o.bills[idx].selected)
+					{
+						if(!o.bills[i].selected)
+						{
+							o.price = parseFloat(o.price) + parseFloat(o.bills[i].fee_price);
+							o.price = o.price.toFixed(2);
+							o.bills[i].selected=true;
+						}
+					}else
+					{
+						if(i==idx)
+						{
+							o.price-=parseFloat(o.bills[idx].fee_price);
+							o.price = o.price.toFixed(2);
+							o.bills[idx].selected=false;
+						}
+					}
                 }
         		for (var i = idx+1; i < o.bills.length; i++) {
-        			o.bills[i].selected=false;
+        			if(o.bills[i].selected)
+					{
+						o.price-=parseFloat(o.bills[i].fee_price);
+						o.price = o.price.toFixed(2);
+					}
+					o.bills[i].selected=false;
                 }
         		o.selectedAll = idx == o.bills.length-1;
-        	} else {
-        		o.bills[idx].selected = !o.bills[idx].selected;
-                var selectedAll = true;
-                
-                for (var i = 0, len = o.bills.length; i < len; i++) {
-                    selectedAll &= o.bills[i].selected;
-                    price+=o.bills[i].selected?parseFloat(o.bills[i].fee_price):0;
-                }
-                o.selectedAll = selectedAll;
-        	}
-        	o.totalPrice=price.toFixed(2);
+        	}else{
+				o.bills[idx].selected = !o.bills[idx].selected;
+				var selectedAll = true;
+            
+				for (var i = 0, len = o.bills.length; i < len; i++) {
+					selectedAll &= o.bills[i].selected;
+					o.price+=o.bills[i].selected?parseFloat(o.bills[i].fee_price):0;
+				}
+				o.selectedAll = selectedAll;
+    		}
+        	o.totalPrice=o.price;
         },
         selectedAll: false,
         toggleSelectedAll: function() {
@@ -188,33 +232,168 @@ avalon.ready(function() {
             	}
             	o.totalPrice = total.toFixed(2);
             }
-            
         },
-        totalPrice: 0.00,
         
-        
-        quickselect: function(idx) {
-        	var price = 0;
-        	if(o.quickpermit_skip_pay==1) {/*不可跳 必须连续*/
-        		for (var i = 0; i <= idx; i++) {
-        			o.quickbills[i].selected=true;
-        			price+=parseFloat(o.quickbills[i].fee_price);
+        carselect: function(idx) {
+			if(o.permit_skip_car_pay==1) {/*不可跳 必须连续*/
+    			for (var i = 0; i <= idx; i++) {
+    				if(!o.carbills[idx].selected)
+					{
+						if(!o.carbills[i].selected)
+						{
+							o.carprice = parseFloat(o.carprice) + parseFloat(o.carbills[i].fee_price);
+							o.carprice = o.carprice.toFixed(2);
+							o.carbills[i].selected=true;
+						}
+					}else
+					{
+						if(i==idx)
+						{
+							o.carprice-=parseFloat(o.carbills[idx].fee_price);
+							o.carprice = o.carprice.toFixed(2);
+							o.carbills[idx].selected=false;
+						}
+					}
                 }
-        		for (var i = idx+1; i < o.quickbills.length; i++) {
-        			o.quickbills[i].selected=false;
+        		for (var i = idx+1; i < o.carbills.length; i++) {
+        			if(o.carbills[i].selected)
+					{
+						o.carprice-=parseFloat(o.carbills[i].fee_price);
+						o.carprice = o.carprice.toFixed(2);
+					}
+					o.carbills[i].selected=false;
                 }
-        		o.quickselectedAll = idx == o.quickbills.length-1;
-        	} else {
-        		o.quickbills[idx].selected = !o.quickbills[idx].selected;
-                var selectedAll = true;
+			}else
+    		{
+    			o.carbills[idx].selected = !o.carbills[idx].selected;
+                var carselectedAll = true;
                 
-                for (var i = 0, len = o.bills.length; i < len; i++) {
-                    selectedAll &= o.quickbills[i].selected;
-                    price+=o.quickbills[i].selected?parseFloat(o.quickbills[i].fee_price):0;
+                for (var i = 0, len = o.carbills.length; i < len; i++) {
+                	carselectedAll &= o.carbills[i].selected;
+                    o.carprice+=o.carbills[i].selected?parseFloat(o.carbills[i].fee_price):0;
                 }
-                o.quickselectedAll = selectedAll;
+                o.carselectedAll = carselectedAll;
+    		}
+        	o.cartotalPrice=o.carprice;
+        },
+        carselectedAll: false,
+        cartoggleSelectedAll: function() {
+            o.carselectedAll = !o.carselectedAll;
+            for (var i = 0, len = o.carbills.length; i < len; i++) {
+                o.carbills[i].selected = o.carselectedAll;
+            }
+            
+            if(!o.carselectedAll){
+        		o.cartotalPrice = 0.00;
+            }else{
+            	var total = 0.00;
+            	for(var i=0;i<o.carbills.length;i++){
+            		if(o.carbills[i].selected == true){
+            			total+=parseFloat(o.carbills[i].fee_price);
+            		}
+            	}
+            	o.cartotalPrice = total.toFixed(2);
+            }
+        },
+        
+        quickselect: function(idx,service_fee_name) {
+        	if(service_fee_name=='公共车位停车费' || service_fee_name=='固定车位停车费')
+        	{
+				o.permit_skip_car_pay=1;
+        		if(o.permit_skip_car_pay==1) {/*不可跳 必须连续*/
+        			for (var i = 0; i <= idx; i++) {
+						if(o.quickbills[i].service_fee_name=='公共车位停车费' || o.quickbills[i].service_fee_name=='固定车位停车费')
+						{
+							if(!o.quickbills[idx].selected)
+							{
+								if(!o.quickbills[i].selected)
+								{
+									o.quickprice = parseFloat(o.quickprice) + parseFloat(o.quickbills[i].fee_price);
+									o.quickprice = o.quickprice.toFixed(2);
+									o.quickbills[i].selected=true;
+								}
+							}else
+							{
+								if(i==idx)
+								{
+									o.quickprice-=parseFloat(o.quickbills[idx].fee_price);
+									o.quickprice = o.quickprice.toFixed(2);
+									o.quickbills[idx].selected=false;
+								}
+							}
+						}
+                    }
+            		for (var i = idx+1; i < o.quickbills.length; i++) {
+						if(o.quickbills[i].service_fee_name=='公共车位停车费' || o.quickbills[i].service_fee_name=='固定车位停车费')
+						{
+							if(o.quickbills[i].selected)
+							{
+								o.quickprice-=parseFloat(o.quickbills[i].fee_price);
+								o.quickprice = o.quickprice.toFixed(2);
+							}
+							o.quickbills[i].selected=false;
+						}
+                    }
+        		}else
+        		{
+        			o.quickbills[idx].selected = !o.quickbills[idx].selected;
+                    var selectedAll = true;
+                    
+                    for (var i = 0, len = o.bills.length; i < len; i++) {
+                        selectedAll &= o.quickbills[i].selected;
+                        o.quickprice+=o.quickbills[i].selected?parseFloat(o.quickbills[i].fee_price):0;
+                    }
+                    o.quickselectedAll = selectedAll;
+        		}
+        	}else
+        	{
+        		if(o.quickpermit_skip_pay==1) {/*不可跳 必须连续*/
+            		for (var i = 0; i <= idx; i++) {
+						if(o.quickbills[i].service_fee_name!='公共车位停车费' && o.quickbills[i].service_fee_name!='固定车位停车费')
+						{
+							if(!o.quickbills[idx].selected)
+							{
+								if(!o.quickbills[i].selected)
+								{
+									o.quickprice = parseFloat(o.quickprice) + parseFloat(o.quickbills[i].fee_price);
+									o.quickprice = o.quickprice.toFixed(2);
+									o.quickbills[i].selected=true;
+								}
+							}else
+							{
+								if(i==idx)
+								{
+									o.quickprice-=parseFloat(o.quickbills[idx].fee_price);
+									o.quickprice = o.quickprice.toFixed(2);
+									o.quickbills[idx].selected=false;
+								}
+							}
+						}
+                    }
+            		for (var i = idx+1; i < o.quickbills.length; i++) {
+						if(o.quickbills[i].service_fee_name!='公共车位停车费' && o.quickbills[i].service_fee_name!='固定车位停车费')
+						{
+							if(o.quickbills[i].selected)
+							{
+								o.quickprice-=parseFloat(o.quickbills[i].fee_price);
+								o.quickprice = o.quickprice.toFixed(2);
+							}
+							o.quickbills[i].selected=false;
+						}
+                    }
+            		o.quickselectedAll = idx == o.quickbills.length-1;
+            	} else {
+            		o.quickbills[idx].selected = !o.quickbills[idx].selected;
+                    var selectedAll = true;
+                    
+                    for (var i = 0, len = o.bills.length; i < len; i++) {
+                        selectedAll &= o.quickbills[i].selected;
+                        o.quickprice+=o.quickbills[i].selected?parseFloat(o.quickbills[i].fee_price):0;
+                    }
+                    o.quickselectedAll = selectedAll;
+            	}
         	}
-        	o.quicktotalPrice=price.toFixed(2);
+			o.quicktotalPrice=o.quickprice;
         },
         quickselectedAll: false,
         quicktoggleSelectedAll: function() {
@@ -273,32 +452,32 @@ avalon.ready(function() {
      */
     function checkUserRegister(){
     	
-    	common.checkRegisterStatus();
-//    	var n = "GET",
-//        a = "userInfo",
-//        i = null,
-//        e = function(n) {
-//			console.log(JSON.stringify(n));
-//			if(n.result == null||n.result==""){
-//				alert("新用户请先注册。");
-//				toRegisterAndBack();
-//				return false;
-//			}
-//			var tel = n.result.tel;
-//			if(tel==null || tel == '' ){
-//				alert("新用户请先注册。");
-//				toRegisterAndBack();
-//				return false;
-//			}
-//    	},
-//        r = function(n) {
-//        	if(n.errorCode==40001){
-//        		alert("新用户请先注册。");
-//        		toRegisterAndBack();
-//        	}
-//	        return false;
-//        };
-//        common.invokeApi(n, a, i, null, e, r)
+//    	common.checkRegisterStatus();
+    	var n = "GET",
+        a = "userInfo",
+        i = null,
+        e = function(n) {
+			console.log(JSON.stringify(n));
+			if(n.result == null||n.result==""){
+				alert("新用户请先注册。");
+				toRegisterAndBack();
+				return false;
+			}
+			var tel = n.result.tel;
+			if(tel==null || tel == '' ){
+				alert("新用户请先注册。");
+				toRegisterAndBack();
+				return false;
+			}
+    	},
+        r = function(n) {
+        	if(n.errorCode==40001){
+        		alert("新用户请先注册。");
+        		toRegisterAndBack();
+        	}
+	        return false;
+        };
+        common.invokeApi(n, a, i, null, e, r)
     	
     }
     

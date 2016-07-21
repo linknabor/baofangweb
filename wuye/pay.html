@@ -17,7 +17,7 @@
  	<style type="text/css">
         .tab-title {
             display: inline-block;
-            width: 50%;
+            width: 33%;
             color: #a6937c;
             font-size: 15px;
             text-align: center;
@@ -142,7 +142,6 @@
 		</div>
 	
 	<!-- load -->
-
     <div class="tab">
         <span class="tab-title" ms-repeat-tab="tabs" ms-class-active="tab.active" ms-click="changeTab($index)">{{tab.name}}</span>
     </div>
@@ -153,7 +152,8 @@
             <i class="fr scan-icon" ms-click="scan"></i>
         </div>
         <a href="#" class="btn" style="margin-top: 20px" ms-click="submit">提交</a>
-        <div class="select-item" ms-repeat-item="quickbills" ms-class-selected="item.selected" ms-class-payed="item.pay_status!='02'" ms-click="quickselect($index)">
+        <div style="height:20px;padding-top: -3px;" ms-if-loop="item.fee_price >0"><span class="fs15 highlight" id="span1"></span></div>
+		<div class="select-item" ms-repeat-item="quickbills" ms-class-selected="item.selected" ms-class-payed="item.pay_status!='02'" ms-click="quickselect($index,item.service_fee_name)">
             <div class="ov fs15" style="padding:18px 15px;color:#3b3937">
                 {{item.service_fee_name}}
                 <span class="fs18 fr highlight">¥{{item.fee_price}}</span>
@@ -208,6 +208,35 @@
             <div class="select-btn fl fs14 plr15" ms-class-selected="selectedAll" ms-click="toggleSelectedAll">全选</div>
             <div class="submit-btn ov fs16" ms-click="pay(bills)">我要缴费
                 <span style="margin-left:10px">¥{{totalPrice}}</span>
+            </div>
+        </div>
+    </div>
+    <!--Tab pane 3-->
+    <div ms-visible="tabs[2].active">
+        <div >
+		<div style="height: 10px;padding-top: 7px;"><span class="fs15 highlight" >{{meet_the_number}}</span></div>
+	        <div class="select-item" ms-repeat-item="carbills" ms-class-selected="item.selected"  ms-class-payed="item.pay_status!='02'" ms-click="carselect($index)">
+	            <div class="ov fs15" style="padding:18px 15px;color:#3b3937">
+	                {{item.service_fee_name}}
+	                <span class="fs18 fr highlight">¥{{item.fee_price}}</span>
+	            </div>
+	            <div class="ov" style="padding:0 15px 21px 15px">
+	                <span class="ib " style="width:150px">{{item.pay_cell_addr}}</span>
+	                <span class="fr">
+	                    <i class="icon time-icon"></i>
+	                    <span>账期{{item.service_fee_cycle}}</span>
+	                </span>
+	            </div>
+	        </div>
+        </div>
+        <div style="width: 100%;clear:both;height:80px">
+        &nbsp;
+        </div>
+        
+        <div class="btn-fixed">
+            <div class="select-btn fl fs14 plr15" ms-class-selected="carselectedAll" ms-click="cartoggleSelectedAll">全选</div>
+            <div class="submit-btn ov fs16" ms-click="pay(carbills)">我要缴费
+                <span style="margin-left:10px">¥{{cartotalPrice}}</span>
             </div>
         </div>
     </div>

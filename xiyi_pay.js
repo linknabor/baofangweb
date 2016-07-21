@@ -221,6 +221,7 @@ avalon.ready(function(){
 	$('#datetimepicker2').datetimepicker({
 		
     	onChangeDateTime:function(dateTime){
+    		
     		var dt = dateTime.dateFormat('Y-m-d H:i');
     		var time = dateTime.getTime()-new Date().getTime();
     		if(time<0){
@@ -234,6 +235,8 @@ avalon.ready(function(){
     			return false;
     		}
     		
+			o.requireDate=dt;
+    		
 //    		if(time<0||time>3600000*24*7) {
 //    			alert("服务时间只能选择当前时间之后起的7天");
 //    		} else if(time<14400000) {
@@ -241,7 +244,6 @@ avalon.ready(function(){
 //    		} else if(o.requireDate!=dt){
 //    			o.requireDate=dt;
 //    		}
-    		o.requireDate=dt;
     	},
     	allowTimes:['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'],
     	lang:'ch',

@@ -67,7 +67,7 @@ avalon.ready(function() {
     	}
 		o.isPaying = true;
         var n = "POST",
-        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+",&couponNum=1&couponId="+o.model.couponId+"&mianBill="+o.mianBill+"&mainAmt="+o.mianAmt,
+        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+",&couponNum=1&couponId="+o.model.couponId,	
         i = null,
         e = function(n) {
             //alert(JSON.stringify(n));
@@ -151,10 +151,6 @@ avalon.ready(function() {
             console.log(JSON.stringify(n));
             o.payInfo=n.result;
             o.payInfofee_data=n.result.fee_data;
-            o.mianBill = n.result.mianBill;
-            o.mianAmt = n.result.mianAmt;
-            o.totalPrice = parseFloat(o.totalPrice)-parseFloat(o.mianAmt);
-            o.totalPrice = o.totalPrice.toFixed(2);
         },
         r = function() {
             alert("获取支付信息失败，请稍后再试！");
@@ -247,8 +243,6 @@ avalon.ready(function() {
         tradeWaterId:'',
         packageId:'',
         factPrice:0.00,
-        mianBill:'',
-        mianAmt:0.00,
         
         model:{
         	couponNum:0,

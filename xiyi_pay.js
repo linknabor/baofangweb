@@ -219,21 +219,36 @@ avalon.ready(function(){
 	queryCoupon();
 	
 	$('#datetimepicker2').datetimepicker({
-    	onChangeDateTime:function(x){
-    		var dt = x.dateFormat('Y-m-d H:i');
-    		var time = x.getTime()-new Date().getTime();
-    		if(time<0||time>3600000*24*7) {
-    			alert("服务时间只能选择今天之后7天");
-    		} else if(time<14400000) {
-//    			alert("您必须提前四个小时下单!");
-    		} else if(o.requireDate!=dt){
-    			o.requireDate=dt;
+		
+    	onChangeDateTime:function(dateTime){
+    		var dt = dateTime.dateFormat('Y-m-d H:i');
+    		var time = dateTime.getTime()-new Date().getTime();
+    		if(time<0){
+    			alert("请选择"+new Date().dateFormat('Y-m-d H:i')+"以后的时间。");
+    			return false;
     		}
+
+    		var maxTime = 3600000*24*7;
+    		if(time>maxTime){
+    			alert("预约时间不能超过7天");
+    			return false;
+    		}
+    		
+//    		if(time<0||time>3600000*24*7) {
+//    			alert("服务时间只能选择当前时间之后起的7天");
+//    		} else if(time<14400000) {
+////    			alert("您必须提前四个小时下单!");
+//    		} else if(o.requireDate!=dt){
+//    			o.requireDate=dt;
+//    		}
+    		o.requireDate=dt;
     	},
-    	allowTimes:['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00'],
+    	allowTimes:['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'],
     	lang:'ch',
     	format:'Y-m-d H:i',
-    	formatDate:'Y-m-d H:i'
+    	formatDate:'Y-m-d H:i',
+    	defaultValue:new Date().getHours+2,
+        minDate:new Date(),
     });
     $('#timetaker').click(function(){
     	$('#datetimepicker2').datetimepicker('show');

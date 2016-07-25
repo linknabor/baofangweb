@@ -20,8 +20,14 @@ avalon.ready(function() {
 	            if(n.result.meet_the_number!=null)
 	            {
 	            	var num = n.result.meet_the_number.split("-");
-	            	o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
-	            	$("#span1").text(o.meet_the_number);
+					if(num[0]!=0)
+					{
+						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
+						$("#span1").text(o.meet_the_number);
+					}else
+					{
+						o.meet_the_number = "";
+					}
 	            }
 	            if(o.quickbills==null||o.quickbills.size()==0){
 	            	alert("没有查到对应账单，请确认账单号是否正确！");
@@ -52,7 +58,13 @@ avalon.ready(function() {
 	            if(n.result.meet_the_number!=null)
 	            {
 	            	var num = n.result.meet_the_number.split("-");
-		            o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
+		            if(num[0]!=0)
+					{
+						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
+					}else
+					{
+						o.meet_the_number = "";
+					}
 	            }
 	            
 	            o.totalCountNormal = n.result.total_count;

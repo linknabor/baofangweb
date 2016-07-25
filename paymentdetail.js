@@ -67,7 +67,7 @@ avalon.ready(function() {
     	}
 		o.isPaying = true;
         var n = "POST",
-        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+",&couponNum=1&couponId="+o.model.couponId+"&mianBill="+o.mianBill+"&mainAmt="+o.mianAmt,
+        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+",&couponNum=1&couponId="+o.model.couponId+"&mianBill="+o.mianBill+"&mianAmt="+o.mianAmt,
         i = null,
         e = function(n) {
             //alert(JSON.stringify(n));
@@ -153,6 +153,9 @@ avalon.ready(function() {
             o.payInfofee_data=n.result.fee_data;
             o.mianBill = n.result.mianBill;
             o.mianAmt = n.result.mianAmt;
+			if(!o.mianAmt){
+				o.mianAmt = 0;
+			}
             o.totalPrice = parseFloat(o.totalPrice)-parseFloat(o.mianAmt);
             o.totalPrice = o.totalPrice.toFixed(2);
         },

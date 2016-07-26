@@ -151,13 +151,16 @@ avalon.ready(function() {
             console.log(JSON.stringify(n));
             o.payInfo=n.result;
             o.payInfofee_data=n.result.fee_data;
-            o.mianBill = n.result.mianBill;
+            if (!n.result.mianBill) {
+	            if(o.mianBill==""){	
+	            	o.mianBill = '0';
+				}else {
+					o.mianBill = n.result.mianBill;
+				}
+            }
             o.mianAmt = n.result.mianAmt;
-			if(!o.mianAmt){
-				o.mianAmt = 0;
-			}
-            o.totalPrice = parseFloat(o.totalPrice)-parseFloat(o.mianAmt);
-            o.totalPrice = o.totalPrice.toFixed(2);
+            var totalPrice = parseFloat(o.totalPrice)-parseFloat(o.mianAmt);
+            o.totalPrice = totalPrice.toFixed(2);
         },
         r = function() {
             alert("获取支付信息失败，请稍后再试！");

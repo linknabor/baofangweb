@@ -17,18 +17,10 @@ avalon.ready(function() {
 	            o.quickbills = n.result.bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.totalCount = n.result.total_count;
-	            if(n.result.meet_the_number!=null)
-	            {
-	            	var num = n.result.meet_the_number.split("-");
-					if(num[0]!=0)
-					{
-						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
-						$("#span1").text(o.meet_the_number);
-					}else
-					{
-						o.meet_the_number = "";
-					}
-	            }
+	            o.ruleId = n.result.park_discount_rule_conf;
+	            o.rule = n.result.park_discount_rule;
+	            buildRuleDisplay(o.ruleId, o.rule);
+	            
 	            if(o.quickbills==null||o.quickbills.size()==0){
 	            	alert("没有查到对应账单，请确认账单号是否正确！");
 	            }
@@ -44,6 +36,27 @@ avalon.ready(function() {
         };
         common.invokeApi(n, a, i, null, e, r)
 	}
+	
+	function buildRuleDisplay(rule_id, rule){
+		
+		if ("0"==rule_id) {
+			o.ruleDisplay = "";
+			return;
+		}
+		
+		var ruleArr = null;
+		if (rule) {
+			ruleArr = rule.split("-");
+		}
+		
+		if("1"==rule_id){
+			o.ruleDisplay = "物业优惠：停车费每满"+ruleArr[0]+"月，减免"+ruleArr[1]+"月";
+		}else if("2"==rule_id){
+			o.ruleDisplay = "缴停车费满"+ruleArr[0]+"月，每月账单减免"+ruleArr[1]+"元";
+		}
+		
+	}
+	
     function queryBillList(){
 		var n = "GET",
         a = "billList?startDate="+o.startDate+"&endDate="+o.endDate +"&payStatus=02&currentPage="+normalPage+"&totalCount="+o.totalCountNormal,
@@ -55,18 +68,9 @@ avalon.ready(function() {
 	            o.carbills = n.result.car_bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.permit_skip_car_pay = n.result.permit_skip_car_pay;
-	            if(n.result.meet_the_number!=null)
-	            {
-	            	var num = n.result.meet_the_number.split("-");
-		            if(num[0]!=0)
-					{
-						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
-					}else
-					{
-						o.meet_the_number = "";
-					}
-	            }
-	            
+	            o.ruleId = n.result.park_discount_rule_conf;
+	            o.rule = n.result.park_discount_rule;
+	            buildRuleDisplay(o.ruleId, o.rule);
 	            o.totalCountNormal = n.result.total_count;
 				o.cartotalCountNormal = n.result.car_bill_info.lenght;
 			} else {
@@ -100,8 +104,10 @@ avalon.ready(function() {
         stmtId:"",
         quickbills:[],
         quickpermit_skip_pay:1,
-        
-        meet_the_number:'',
+        park:'',
+        ruleDisplay:'',
+        ruleId: '0',
+        rule:'',
         startDate:"",
         endDate:"",
         totalCount:0,
@@ -567,7 +573,18 @@ avalon.ready(function() {
         };
         common.invokeApi(n, a, i, null, e, r)
     }
+    
+    function change2parkTab(){
+	
+    	o.park = getUrlParam("park");
+    	if(o.park){
+    		o.tabs[0].active = false;
+    		o.tabs[2].active = true;
+    	}
+	
+    }
 
+    change2parkTab();
     checkUserRegister();
     initWechat(['scanQRCode']);
     queryBillList();

@@ -72,7 +72,7 @@ avalon.ready(function() {
 	            o.rule = n.result.park_discount_rule;
 	            buildRuleDisplay(o.ruleId, o.rule);
 	            o.totalCountNormal = n.result.total_count;
-				o.cartotalCountNormal = n.result.car_bill_info.lenght;
+				o.cartotalCountNormal = n.result.bills_size;
 			} else {
 				if(o.park){
 					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"

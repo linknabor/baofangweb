@@ -13,7 +13,7 @@
 	<script src="../static/js/fastclick.min-1.0.6.js?v=20151217"></script>
 	<script src="../static/js/avalon.js"></script>
 	<script src="../static/js/common_v3.js?v=20151217"></script>
-	<script src="pay.js"></script>
+	<script src="pay.js?v=1"></script>
  	<style type="text/css">
         .tab-title {
             display: inline-block;
@@ -214,7 +214,7 @@
     <!--Tab pane 3-->
     <div ms-visible="tabs[2].active">
         <div >
-		<div style="height: 10px;padding-top: 7px;"><span class="fs15 highlight">{{ruleDisplay}}</span></div>
+		<div style="height: 10px;padding-top: 7px;" ms-visible="ruleDisplay!=''"><span class="fs15 highlight">{{ruleDisplay}}</span></div>
 		<div style="height: 10px;padding-top: 7px;" ms-visible="hint!=''"><span class="fs15 highlight" >{{hint}}</span></div>
 	        <div class="select-item" ms-repeat-item="carbills" ms-class-selected="item.selected"  ms-class-payed="item.pay_status!='02'" ms-click="carselect($index)">
 	            <div class="ov fs15" style="padding:18px 15px;color:#3b3937">

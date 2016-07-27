@@ -449,8 +449,8 @@ avalon.ready(function() {
      */
     function checkUserRegister(){
     	
-//    	common.checkRegisterStatus();
-    	var n = "GET",
+    	common.checkRegisterStatus();
+    	/*var n = "GET",
         a = "userInfo",
         i = null,
         e = function(n) {
@@ -474,7 +474,7 @@ avalon.ready(function() {
         	}
 	        return false;
         };
-        common.invokeApi(n, a, i, null, e, r)
+        common.invokeApi(n, a, i, null, e, r)*/
     	
     }
     

@@ -215,6 +215,7 @@
     <div ms-visible="tabs[2].active">
         <div >
 		<div style="height: 10px;padding-top: 7px;"><span class="fs15 highlight">{{ruleDisplay}}</span></div>
+		<div style="height: 10px;padding-top: 7px;" ms-visible="hint!=''"><span class="fs15 highlight" >{{hint}}</span></div>
 	        <div class="select-item" ms-repeat-item="carbills" ms-class-selected="item.selected"  ms-class-payed="item.pay_status!='02'" ms-click="carselect($index)">
 	            <div class="ov fs15" style="padding:18px 15px;color:#3b3937">
 	                {{item.service_fee_name}}

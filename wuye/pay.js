@@ -74,6 +74,9 @@ avalon.ready(function() {
 	            o.totalCountNormal = n.result.total_count;
 				o.cartotalCountNormal = n.result.car_bill_info.lenght;
 			} else {
+				if(o.park){
+					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"
+				}
 				o.bills = [];
 			}
 			normalPage++;
@@ -105,6 +108,7 @@ avalon.ready(function() {
         quickbills:[],
         quickpermit_skip_pay:1,
         park:'',
+        hint:'',
         ruleDisplay:'',
         ruleId: '0',
         rule:'',

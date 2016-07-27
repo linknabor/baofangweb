@@ -68,7 +68,7 @@ avalon.ready(function() {
 	            }
 	            
 	            o.totalCountNormal = n.result.total_count;
-				o.cartotalCountNormal = n.result.car_bill_info.lenght;
+				o.cartotalCountNormal = n.result.bills_size;
 			} else {
 				o.bills = [];
 			}

@@ -17,18 +17,10 @@ avalon.ready(function() {
 	            o.quickbills = n.result.bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.totalCount = n.result.total_count;
-	            if(n.result.meet_the_number!=null)
-	            {
-	            	var num = n.result.meet_the_number.split("-");
-					if(num[0]!=0)
-					{
-						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
-						$("#span1").text(o.meet_the_number);
-					}else
-					{
-						o.meet_the_number = "";
-					}
-	            }
+	            o.ruleId = n.result.park_discount_rule_conf;
+	            o.rule = n.result.park_discount_rule;
+	            buildRuleDisplay(o.ruleId, o.rule);
+	            
 	            if(o.quickbills==null||o.quickbills.size()==0){
 	            	alert("没有查到对应账单，请确认账单号是否正确！");
 	            }
@@ -44,32 +36,53 @@ avalon.ready(function() {
         };
         common.invokeApi(n, a, i, null, e, r)
 	}
+	
+	function buildRuleDisplay(rule_id, rule){
+		
+		if ("0"==rule_id) {
+			o.ruleDisplay = "";
+			return;
+		}
+		
+		var ruleArr = null;
+		if (rule) {
+			ruleArr = rule.split("-");
+		}
+		
+		if("1"==rule_id){
+			o.ruleDisplay = "物业优惠：停车费每满"+ruleArr[0]+"月，减免"+ruleArr[1]+"月";
+		}else if("2"==rule_id){
+			o.ruleDisplay = "缴停车费满"+ruleArr[0]+"月，每月账单减免"+ruleArr[1]+"元";
+		}
+		
+	}
+	
     function queryBillList(){
 		var n = "GET",
         a = "billList?startDate="+o.startDate+"&endDate="+o.endDate +"&payStatus=02&currentPage="+normalPage+"&totalCount="+o.totalCountNormal,
         i = null,
         e = function(n) {
 			console.log(JSON.stringify(n));
+		
 			if(n.result!=null) {
 	            o.bills = n.result.bill_info;
 	            o.carbills = n.result.car_bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.permit_skip_car_pay = n.result.permit_skip_car_pay;
-	            if(n.result.meet_the_number!=null)
-	            {
-	            	var num = n.result.meet_the_number.split("-");
-		            if(num[0]!=0)
-					{
-						o.meet_the_number = "物业优惠：停车费每满"+num[0]+"月，减免"+num[1]+"月";
-					}else
-					{
-						o.meet_the_number = "";
-					}
-	            }
-	            
+	            o.ruleId = n.result.park_discount_rule_conf;
+	            o.rule = n.result.park_discount_rule;
+	            buildRuleDisplay(o.ruleId, o.rule);
 	            o.totalCountNormal = n.result.total_count;
 				o.cartotalCountNormal = n.result.bills_size;
+				if(o.tabs[2].active && o.cartotalCountNormal==0){
+					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
+				}
+				
 			} else {
+
+				if(o.tabs[2].active){
+					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
+				}
 				o.bills = [];
 			}
 			normalPage++;
@@ -100,8 +113,11 @@ avalon.ready(function() {
         stmtId:"",
         quickbills:[],
         quickpermit_skip_pay:1,
-        
-        meet_the_number:'',
+        park:'',
+        hint:'',
+        ruleDisplay:'',
+        ruleId: '0',
+        rule:'',
         startDate:"",
         endDate:"",
         totalCount:0,
@@ -120,6 +136,9 @@ avalon.ready(function() {
             o.tabs[idx].active = true;
             hasNext=true;
             isloadPage=false;
+			if(o.tabs[2].active && o.cartotalCountNormal==0){
+				o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
+			}
         },
         bills: [],
         carbills: [],
@@ -430,32 +449,8 @@ avalon.ready(function() {
      */
     function checkUserRegister(){
     	
-//    	common.checkRegisterStatus();
-    	var n = "GET",
-        a = "userInfo",
-        i = null,
-        e = function(n) {
-			console.log(JSON.stringify(n));
-			if(n.result == null||n.result==""){
-				alert("新用户请先注册。");
-				toRegisterAndBack();
-				return false;
-			}
-			var tel = n.result.tel;
-			if(tel==null || tel == '' ){
-				alert("新用户请先注册。");
-				toRegisterAndBack();
-				return false;
-			}
-    	},
-        r = function(n) {
-        	if(n.errorCode==40001){
-        		alert("新用户请先注册。");
-        		toRegisterAndBack();
-        	}
-	        return false;
-        };
-        common.invokeApi(n, a, i, null, e, r)
+    	common.checkRegisterStatus();
+    	
     	
     }
     
@@ -567,7 +562,18 @@ avalon.ready(function() {
         };
         common.invokeApi(n, a, i, null, e, r)
     }
+    
+    function change2parkTab(){
+	
+    	o.park = getUrlParam("park");
+    	if(o.park){
+    		o.tabs[0].active = false;
+    		o.tabs[2].active = true;
+    	}
+	
+    }
 
+    change2parkTab();
     checkUserRegister();
     initWechat(['scanQRCode']);
     queryBillList();

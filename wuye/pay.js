@@ -75,13 +75,13 @@ avalon.ready(function() {
 	            o.totalCountNormal = n.result.total_count;
 				o.cartotalCountNormal = n.result.bills_size;
 				if(o.tabs[2].active && o.cartotalCountNormal==0){
-					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"
+					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
 				}
 				
 			} else {
 
 				if(o.tabs[2].active){
-					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"
+					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
 				}
 				o.bills = [];
 			}
@@ -137,7 +137,7 @@ avalon.ready(function() {
             hasNext=true;
             isloadPage=false;
 			if(o.tabs[2].active && o.cartotalCountNormal==0){
-				o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"
+				o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
 			}
         },
         bills: [],
@@ -450,31 +450,7 @@ avalon.ready(function() {
     function checkUserRegister(){
     	
     	common.checkRegisterStatus();
-    	/*var n = "GET",
-        a = "userInfo",
-        i = null,
-        e = function(n) {
-			console.log(JSON.stringify(n));
-			if(n.result == null||n.result==""){
-				alert("新用户请先注册。");
-				toRegisterAndBack();
-				return false;
-			}
-			var tel = n.result.tel;
-			if(tel==null || tel == '' ){
-				alert("新用户请先注册。");
-				toRegisterAndBack();
-				return false;
-			}
-    	},
-        r = function(n) {
-        	if(n.errorCode==40001){
-        		alert("新用户请先注册。");
-        		toRegisterAndBack();
-        	}
-	        return false;
-        };
-        common.invokeApi(n, a, i, null, e, r)*/
+    	
     	
     }
     

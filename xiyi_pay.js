@@ -180,7 +180,7 @@ avalon.ready(function(){
 		requireDate:'',
         showAddress:function(){
         	common.checkRegisterStatus();
-        	addrUtil.chooseAddress(function(addr){
+        	chooseAddress(function(addr){
                 o.currentPage="main";
                 o.address=addr;
             });

@@ -154,21 +154,13 @@ avalon.ready(function() {
     	memo:"",
         address:{},
         choseAddress:function(){
-        	
         	chooseAddress(function(address){
         		o.page='main';
                 if(address){
                     o.address=address;
                 }
             });
-        	
-        	 o.page="";
-        	
-//            addrUtil.chooseAddress(function(addr){
-//                o.page="main";
-//                o.address=addr;
-//            });
-//            o.page="";
+        	o.page="";
         },
         
 		coupon:{},

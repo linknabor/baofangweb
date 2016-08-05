@@ -285,7 +285,7 @@ function() {
     var e = document.createElement("script");
     e.src = "//hm.baidu.com/hm.js?" + MasterConfig.C("statistics").baidu_code;
     var o = document.getElementsByTagName("script")[0];
-    o.parentNode.insertBefore(e, o)
+    //o.parentNode.insertBefore(e, o)
 } (),
 /**
 function() {

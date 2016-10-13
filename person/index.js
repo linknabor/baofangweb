@@ -58,24 +58,7 @@ avalon.ready(function() {
         }
     });
     
-    //更新红包状态
-	function updateCouponStatus(){
-		
-		var n = "GET",
-        a = "updateCouponStatus",
-        i = null,
-        e = function(n) {
-            console.log(JSON.stringify(n));
-        },
-        r = function() {
-
-        };
-        common.invokeApi(n, a, i, null, e, r)
-		
-	}
-
     n();
-    updateCouponStatus();
     avalon.scan(document.body);
     initWechat(['onMenuShareTimeline','onMenuShareAppMessage']);
     initShareConfig("我的社区，我的家，我在我家大楼！",MasterConfig.C("basePageUrl")+"person/index.html?v=20160301",MasterConfig.C("basePageUrl")+"/static/images/share_logo4.png","我家大楼，我的生活管家");

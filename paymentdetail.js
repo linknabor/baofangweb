@@ -45,9 +45,12 @@ avalon.ready(function() {
 	function getBillId(){
 		o.billId=getUrlParam("billIds");
 		o.stmtId=getUrlParam("stmtId");
+		o.cellId = getUrlParam("cellId");
 		o.payAddr=getUrlParam("payAddr");
 		o.payAddr = unescape(o.payAddr);
 		o.totalPrice=getUrlParam("totalPrice");
+		
+		updateCouponStatus();
 		
 	}
 	function payAction() {
@@ -74,6 +77,15 @@ avalon.ready(function() {
         	o.userPayType = n.result.user_pay_type;
         	o.tradeWaterId = n.result.trade_water_id;
         	o.packageId = n.result.packageId;
+        	
+        	wx.config({
+    		    appId: n.result.appid, // 必填，公众号的唯一标识
+    		    timestamp: n.result.timestamp , // 必填，生成签名的时间戳
+    		    nonceStr: n.result.noncestr, // 必填，生成签名的随机串
+    		    signature: n.result.paysign,// 必填，签名，见附录1
+    		    jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    		});
+        	
             wx.chooseWXPay({
                 "timestamp":n.result.timestamp,
                 "nonceStr":n.result.noncestr,
@@ -98,9 +110,6 @@ avalon.ready(function() {
           	    
           	});
             
-//            o.userPayType = "9"
-//        	notifyPaySuccess();
-
         },
         r = function(n) {
         	console.log(JSON.stringify(n));
@@ -128,15 +137,18 @@ avalon.ready(function() {
     	}
 		
 		var n = "GET",
-        a = "updateCouponStatus",
+        a = "updateCouponStatus/"+o.cellId,
         i = null,
         e = function(n) {
             console.log(JSON.stringify(n));
-            queryCoupons();
+            if(n!="0"){	//返回0表示该套房屋已使用过优惠券缴费，不能再次使用
+            	queryCoupons();
+            }
             $("#zzmb").hide();
         },
         r = function() {
-        	queryCoupons();
+        	alert("加载红包失败，请刷新后再试。");
+        	//queryCoupons();
         	$("#zzmb").hide();
         };
         common.invokeApi(n, a, i, null, e, r)
@@ -248,6 +260,7 @@ avalon.ready(function() {
         isPaying: false,
         userPayType: '',
         payAddr: '',
+        cellId: '',
         currentPage: "main",
         totalPrice: 0.00,
         tradeWaterId:'',
@@ -289,11 +302,16 @@ avalon.ready(function() {
         payInfofee_data:[]
         
     });
+    
+    function initPay(){
+    	
+    	
+    }
+    
     //n();
     getBillId();
-    initWechat(['chooseWXPay']) ;
+//    initWechat(['chooseWXPay']) ;
     getDetailInfo();
-    updateCouponStatus();
     avalon.scan(document.body);
     //share.default_send();
     FastClick.attach(document.body);  

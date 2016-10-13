@@ -141,7 +141,7 @@ avalon.ready(function() {
         i = null,
         e = function(n) {
             console.log(JSON.stringify(n));
-            if(n!="0"){	//返回0表示该套房屋已使用过优惠券缴费，不能再次使用
+            if(n.result!="0"){	//返回0表示该套房屋已使用过优惠券缴费，不能再次使用
             	queryCoupons();
             }
             $("#zzmb").hide();

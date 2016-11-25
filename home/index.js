@@ -4,13 +4,37 @@
 	}
 	avalon.ready(function() {
 	function query(){
-		common.invokeApi("GET","pageconfig/baofangdaojia",null,null,function(n){
-			o.banners = n.result.banners;
-			o.jingxuans=n.result.jingxuans;
-			initSwiper();
-		},function(){
-			alert("页面获取信息错误，请稍后重试！");
-		})
+//		common.invokeApi("GET","pageconfig/baofangdaojia",null,null,function(n){
+//		common.invokeApi("GET","pageconfig2/13",null,null,function(n){
+//			alert(n);
+//			o.banners = n.banners;
+//			o.jingxuans=n.jingxuans;
+//			initSwiper();
+//		},function(){
+//			alert("页面获取信息错误，请稍后重试！");
+//		})
+		 $.ajax({
+	            type: "GET",
+	            url: location.protocol + '//' + location.host + "/pageconfig2/13",
+	            dataType: "json",
+	            success: function (data) {
+//	            	var tmp = "{\"bannerUrl\":\"jkfdaf\",\"picture\":\"fdag\"}";
+//	            	alert(tmp.bannerUrl);
+//	            	alert(data);
+	                var arr = data['banners:'];
+	                var out = "";
+	                for( var i = 0; i < arr.length; i++) {
+	                	out += '<a href="'+arr[i].bannerUrl+'"  style="width:50%" > <div >'
+			                 +'<img src="'+arr[i].picture+'" />'
+			                 +'</div></a>';
+	                }
+//	                alert(out);
+	                $("#stage").html(out);
+	            },
+	            error: function(data){
+			alert("fail");
+	            },
+	        });
 	}
     var o = avalon.define({
         $id: "root",

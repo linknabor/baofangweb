@@ -4,29 +4,41 @@
 	}
 	avalon.ready(function() {
 	function query(){
-		common.invokeApi("GET","pageconfig2/13",null,null,function(n){
-
-			o.banners = n.result;
-			//o.jingxuans=n.jingxuans;
-			initSwiper();
-		},function(){
-			alert("页面获取信息错误，请稍后重试！");
-		})
-	}
-	function queryPics(){
-		common.invokeApi("GET","pageconfig2/14",null,null,function(n){
-
-			o.pics= n.result;
-			//o.jingxuans=n.jingxuans;
-			//initSwiper();
-		},function(){
-			alert("页面获取信息错误，请稍后重试！");
-		})
+//		common.invokeApi("GET","pageconfig/baofangdaojia",null,null,function(n){
+//		common.invokeApi("GET","pageconfig2/13",null,null,function(n){
+//			alert(n);
+//			o.banners = n.banners;
+//			o.jingxuans=n.jingxuans;
+//			initSwiper();
+//		},function(){
+//			alert("页面获取信息错误，请稍后重试！");
+//		})
+		 $.ajax({
+	            type: "GET",
+	            url: location.protocol + '//' + location.host + "/pageconfig2/13",
+	            dataType: "json",
+	            success: function (data) {
+//	            	var tmp = "{\"bannerUrl\":\"jkfdaf\",\"picture\":\"fdag\"}";
+//	            	alert(tmp.bannerUrl);
+//	            	alert(data);
+	                var arr = data['banners:'];
+	                var out = "";
+	                for( var i = 0; i < arr.length; i++) {
+	                	out += '<a href="'+arr[i].bannerUrl+'"  style="width:50%" > <div >'
+			                 +'<img src="'+arr[i].picture+'" />'
+			                 +'</div></a>';
+	                }
+//	                alert(out);
+	                $("#stage").html(out);
+	            },
+	            error: function(data){
+			alert("fail");
+	            },
+	        });
 	}
     var o = avalon.define({
         $id: "root",
         banners:[],
-		pics:[],
         jingxuans:[
         ],
         gotoPage:function(url){
@@ -34,7 +46,6 @@
         }
     });
 	query();
-	queryPics();
     initWechat(['onMenuShareTimeline','onMenuShareAppMessage']);
     initShareConfig("鲜花、汽车、健康、维修、洗衣、家政...点亮生活，尽在我家大楼管家服务！",MasterConfig.C("basePageUrl")+"home/index.html?v=20160229",MasterConfig.C("basePageUrl")+"/static/images/share_logo1.png","足不出户即享简单便捷的居家生活");
     avalon.scan(document.body),

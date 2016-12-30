@@ -1,4 +1,4 @@
-var MasterConfig = function() {
+﻿var MasterConfig = function() {
     var t = {
                 
         baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
@@ -17,11 +17,14 @@ var MasterConfig = function() {
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
         oauthUrlPostFix:"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect",
         bindAppId: "wx6b7f7d4010183c46",
+
+		payPageFolder:"http://www.e-shequ.com/pay/",
+        payPageSuffix:"bf",		//baofang
         
         baidu_map_key:"RUWUgrEEF5VjoaWsstMMZwOD",
         shop_name: "大楼",
         
-        is_debug:true,
+        is_debug:false,
         statistics: {
             baidu_code: "23a1ae591bf2274b3024408e7e3a1fac",
             cnzz_script: '<script src="http://s11.cnzz.com/stat.php?id=1256090623&web_id=1256090623" language="JavaScript"></script>'
@@ -287,7 +290,7 @@ function() {
     var e = document.createElement("script");
     e.src = "//hm.baidu.com/hm.js?" + MasterConfig.C("statistics").baidu_code;
     var o = document.getElementsByTagName("script")[0];
-   // o.parentNode.insertBefore(e, o)
+    //o.parentNode.insertBefore(e, o)
 } (),
 /**
 function() {

@@ -302,12 +302,6 @@ avalon.ready(function() {
         payInfofee_data:[]
         
     });
-    
-    function initPay(){
-    	
-    	
-    }
-    
     //n();
     getBillId();
 //    initWechat(['chooseWXPay']) ;

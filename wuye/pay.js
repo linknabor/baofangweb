@@ -425,7 +425,7 @@ avalon.ready(function() {
         	var pay_addr = "";
         	var total = 0.00;
         	var total_pay = 0.00;
-        	var sel_not_pay_count = o.totalNotPay; //已选账单中未付账单的数量
+        	var sel_not_pay_count = 0; //已选账单中未付账单的数量
         	var sel_bill_arr = new Array();
             for (var i = 0, len = billList.length; i < len; i++) {
             	if(billList[i].is_onlinepay=='false'){
@@ -441,7 +441,7 @@ avalon.ready(function() {
                 	if(-1==ret){
                 		sel_bill_arr.push(billList[i].service_fee_cycle);
                 	}
-                	sel_not_pay_count--;
+					sel_not_pay_count++;
                 }
             }
             

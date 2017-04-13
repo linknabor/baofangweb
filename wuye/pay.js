@@ -17,8 +17,10 @@ avalon.ready(function() {
 	            o.quickbills = n.result.bill_info;
 	            o.permit_skip_pay=n.result.permit_skip_pay;
 	            o.totalCount = n.result.total_count;
+	            o.totalNotPay = n.result.total_not_pay;
 	            o.ruleId = n.result.park_discount_rule_conf;
 	            o.rule = n.result.park_discount_rule;
+	            o.pay_least_month = n.result.pay_least_month;
 	            buildRuleDisplay(o.ruleId, o.rule);
 	            
 	            if(o.quickbills==null||o.quickbills.size()==0){
@@ -74,6 +76,8 @@ avalon.ready(function() {
 	            buildRuleDisplay(o.ruleId, o.rule);
 	            o.totalCountNormal = n.result.total_count;
 				o.cartotalCountNormal = n.result.bills_size;
+				o.pay_least_month = n.result.pay_least_month;
+				o.totalNotPay = n.result.total_not_pay;
 				if(o.tabs[2].active && o.cartotalCountNormal==0){
 					o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我要缴费-->我是业主” 中进行绑定。"
 				}
@@ -121,6 +125,7 @@ avalon.ready(function() {
         startDate:"",
         endDate:"",
         totalCount:0,
+        totalNotPay:0,
         totalCountNormal:0,
 		cartotalCountNormal:0,
 		price:0.00,
@@ -144,7 +149,7 @@ avalon.ready(function() {
         carbills: [],
         permit_skip_pay:1,
         permit_skip_car_pay:1,
-        
+        pay_least_month:0,
         
         /**账单**/
         dropdownCollapsed: true,
@@ -405,7 +410,7 @@ avalon.ready(function() {
             }else{
             	var total = 0.00;
             	for(var i=0;i<o.quickbills.length;i++){
-            		if(o.quickbills[i].selected == true){
+            		if(o.quickbills[i].selected == true && o.quickbills[i].pay_status=="02"){
             			total+=parseFloat(o.quickbills[i].fee_price);
             		}
             	}
@@ -415,28 +420,46 @@ avalon.ready(function() {
         },
         quicktotalPrice: 0.00,
         
-        
         pay: function(billList) {
         	var bills = "";
         	var pay_addr = "";
         	var total = 0.00;
         	var total_pay = 0.00;
+        	var sel_not_pay_count = o.totalNotPay; //已选账单中未付账单的数量
+        	var sel_bill_arr = new Array();
             for (var i = 0, len = billList.length; i < len; i++) {
             	if(billList[i].is_onlinepay=='false'){
             		alert("您所在小区仅能查询物业账单，缴费请到小区物业管理处办理。");
             		return false;
             	}
-                if(billList[i].selected&&billList[i].pay_status==2){
+                if(billList[i].selected&&billList[i].pay_status=="02"){
                 	bills+=billList[i].bill_id+",";
         			total+=parseFloat(billList[i].fee_price);
                 	total_pay = total.toFixed(2);
                 	
+                	var ret = jQuery.inArray(billList[i].service_fee_cycle, sel_bill_arr);
+                	if(-1==ret){
+                		sel_bill_arr.push(billList[i].service_fee_cycle);
+                	}
+                	sel_not_pay_count--;
                 }
             }
+            
             if(bills == "") {
             	alert("请选择需要缴费的账单！");
             	return;
             }
+            
+            //校验选择的账单是否达到可以支付的账单月份数量， pay_least_month代表至少需要支付的月份数。此值默认为0，不进行校验
+            if (o.pay_least_month>0) {
+            	 if (o.pay_least_month>sel_bill_arr.length) {
+                 	//当前选中的未支付账单如果少于总的未支付账单数据
+                     if (sel_not_pay_count < o.totalNotPay) {
+         				alert("请至少选择"+o.pay_least_month+"个月的账单进行支付。");
+         				return false;
+         			}
+     			}
+			}
             var pay_addr = billList[0].pay_cell_addr;
             var cell_id = billList[0].pay_mng_cell_id;
             var url = MasterConfig.C("basePageUrl")+"paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&cellId="+cell_id+"&totalPrice="+total_pay

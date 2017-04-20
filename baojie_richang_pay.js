@@ -125,22 +125,22 @@ avalon.ready(function() {
         $id: "root",
         page:"main",
         item:"",
-    	hours:4,
+    	hours:2,
     	amount:0,
     	serviceItemId:6,
     	realMoney:0,
     	realAmount:0,
     	addhours:function(){
-    	    if(!o.hours||o.hours<4){
-    	        o.hours=4;
+    	    if(!o.hours||o.hours<2){
+    	        o.hours=2;
     	    } else {
     	        o.hours+=0.5;
     	    }
     	    computeAmount();
     	},
     	subhours:function(){
-    	    if(!o.hours||o.hours<=4){
-                o.hours=4;
+    	    if(!o.hours||o.hours<=2){
+                o.hours=2;
             } else {
                 o.hours-=0.5;
             }

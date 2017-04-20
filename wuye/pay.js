@@ -211,7 +211,6 @@ avalon.ready(function() {
         	page = 1;
         	quickPayBillList();
         },
-        /**快捷**/
         
         /*绑定房屋支付--选择账单 */
         select: function(idx) {
@@ -355,7 +354,6 @@ avalon.ready(function() {
 								}
 								o.quickbills[i].selected=false;
 							}
-							o.quickbills[i].selected=false;
 						}
                     }
         		}else
@@ -377,7 +375,7 @@ avalon.ready(function() {
             			if (o.quickbills[i].pay_status=="02") {
 							if(o.quickbills[i].service_fee_name!='公共车位停车费' && o.quickbills[i].service_fee_name!='固定车位停车费')
 							{
-								if(!o.quickbills[i].selected)
+								if(!o.quickbills[idx].selected)	//选中
 								{
 									if(!o.quickbills[i].selected)
 									{
@@ -387,9 +385,12 @@ avalon.ready(function() {
 									}
 								}else	//反选
 								{
-									o.quickprice-=parseFloat(o.quickbills[idx].fee_price);
-									o.quickprice = o.quickprice.toFixed(2);
-									o.quickbills[idx].selected=false;
+									if(i==idx)
+									{
+										o.quicktotalPrice-=parseFloat(o.quickbills[idx].fee_price);
+										o.quicktotalPrice = parseFloat(o.quicktotalPrice).toFixed(2);
+										o.quickbills[idx].selected=false;
+									}
 								}
 							}
 						}
@@ -421,7 +422,6 @@ avalon.ready(function() {
                     o.quickselectedAll = selectedAll;
             	}
         	}
-			o.quicktotalPrice=o.quickprice;
         },
         quickselectedAll: false,
         
@@ -437,7 +437,7 @@ avalon.ready(function() {
             }else{
             	var total = 0.00;
             	for(var i=0;i<o.quickbills.length;i++){
-            		if(o.quickbills[i].selected == true && o.quickbills[i].pay_status=="02"){
+            		if(o.quickbills[i].selected == true  && o.quickbills[i].pay_status=="02"){
             			total+=parseFloat(o.quickbills[i].fee_price);
             		}
             	}
@@ -445,7 +445,6 @@ avalon.ready(function() {
             }
             
         },
-        quicktotalPrice: 0.00,
         
         pay: function(billList) {
         	var bills = "";
@@ -472,7 +471,6 @@ avalon.ready(function() {
                 	
                 }
             }
-            
             if(bills == "") {
             	alert("请选择需要缴费的账单！");
             	return;
@@ -502,9 +500,7 @@ avalon.ready(function() {
      * 1.判断用户是否为注册用户，如为注册用户，则走正常缴费流程。如果不为注册用户则跳转到注册页面。
      */
     function checkUserRegister(){
-    	
     	common.checkRegisterStatus();
-    	
     	
     }
     

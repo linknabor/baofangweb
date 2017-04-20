@@ -198,7 +198,7 @@ avalon.ready(function() {
 	        	    o.stmtId = rs; // 当needResult 为 1 时，扫码返回的结果
 	        	},
 	        	fail: function (res) {
-	        		alert("扫码失败 ，请重试！");
+	        		alert("网络不稳定 ，请刷新重试！");
 	        	}
         	});
         },
@@ -461,8 +461,11 @@ avalon.ready(function() {
      			}
 			}
             var pay_addr = billList[0].pay_cell_addr;
-            var cell_id = billList[0].pay_mng_cell_id;
-            var url = MasterConfig.C("basePageUrl")+"paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&cellId="+cell_id+"&totalPrice="+total_pay
+            //var url = MasterConfig.C("basePageUrl")+"paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&totalPrice="+total_pay
+
+			var url = MasterConfig.C("payPageFolder")+MasterConfig.C("payPageSuffix");
+            url += "paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&totalPrice="+total_pay;
+            url += "&basePageUrl="+MasterConfig.C("basePageUrl");
             window.location.href = url;
         }
     });
@@ -597,6 +600,7 @@ avalon.ready(function() {
     }
 
     change2parkTab();
+	initWechat(['scanQRCode']);
     checkUserRegister();
     initWechat(['scanQRCode']);
     queryBillList();

@@ -1,31 +1,36 @@
-var MasterConfig = function() {
+﻿var MasterConfig = function() {
     var t = {
-
-        //baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
-        //basePageUrl:"http://www.e-shequ.com/baofang/weixin/",
-        //appId: "wx89c743b2fa762a2c",
-
+                
+        baseUrl: "http://www.e-shequ.com/baofang/wechat/hexie/wechat/",
+        basePageUrl:"http://www.e-shequ.com/baofang/weixin/",
+        appId: "wx89c743b2fa762a2c",
+        
         //baseUrl: "http://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"http://www.e-shequ.com/wechat-sit/hexie/",
 
-        baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
-        basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
-        appId: "wx95f46f41ca5e570e",
+        //baseUrl: "http://test.e-shequ.com/wechat/hexie/wechat/",
+        //basePageUrl:"http://test.e-shequ.com/weixin/",
+        //appId: "wx95f46f41ca5e570e",
 
+
+        
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
         oauthUrlPostFix:"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect",
-        bindAppId: "wx9ffe0a2b5a64a285",
+        bindAppId: "wx6b7f7d4010183c46",
 
+		payPageFolder:"http://www.e-shequ.com/pay/",
+        payPageSuffix:"bf",		//baofang
+        
         baidu_map_key:"RUWUgrEEF5VjoaWsstMMZwOD",
         shop_name: "大楼",
-
-        is_debug:true,
+        
+        is_debug:false,
         statistics: {
-            baidu_code: "62ff8bd29967ed5ee536babb82aa8d64",
+            baidu_code: "23a1ae591bf2274b3024408e7e3a1fac",
             cnzz_script: '<script src="http://s11.cnzz.com/stat.php?id=1256090623&web_id=1256090623" language="JavaScript"></script>'
         }
     },
-
+    
     e = {};
     return e.C = function(e) {
         return t[e]
@@ -73,7 +78,7 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
     if(!content){
         content = "";
     }
-    var chatHtml =
+    var chatHtml = 
             "<div class='weui_mask' id='dialog_overlay'></div>                                                   "
             +"<div class='weui_dialog'>                                                       "
             +"  <div class='dialog_title'>"+title+"</div>                                          "
@@ -85,7 +90,7 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
             +"      <div class='dialog_btn' id='dialog_confirm'>确定</div>                    "
             +"  </div>                                                                        "
             +"</div>                                                                          ";
-
+        
     $("#dialog").html('');
     var loadHtml = "";
     $("#dialog").html(chatHtml);
@@ -103,22 +108,22 @@ function showDialog(title,placeholder,content,onConfirmMsg,onCancelClick){
     });
 }
 Date.prototype.format = function(fmt){
-	  var o = {
-	    "M+" : this.getMonth()+1,
-	    "d+" : this.getDate(),
-	    "h+" : this.getHours(),
-	    "m+" : this.getMinutes(),
-	    "s+" : this.getSeconds(),
-	    "q+" : Math.floor((this.getMonth()+3)/3),
-	    "S"  : this.getMilliseconds()
-	  };
-	  if(/(y+)/.test(fmt))
-	    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-	  for(var k in o)
-	    if(new RegExp("("+ k +")").test(fmt))
+	  var o = {   
+	    "M+" : this.getMonth()+1,               
+	    "d+" : this.getDate(),                   
+	    "h+" : this.getHours(),                 
+	    "m+" : this.getMinutes(),              
+	    "s+" : this.getSeconds(),                
+	    "q+" : Math.floor((this.getMonth()+3)/3), 
+	    "S"  : this.getMilliseconds()          
+	  };   
+	  if(/(y+)/.test(fmt))   
+	    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+	  for(var k in o)   
+	    if(new RegExp("("+ k +")").test(fmt)) 
 	            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ?
-	                     (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-	 return fmt;
+	                     (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+	 return fmt;   
 }
 function dealWithAjaxData(o, e, i, r) {
     if (common.log(o, e), e.success) {
@@ -186,7 +191,7 @@ function initShareConfig(title,link,img,desc){
 	if(link.indexOf(MasterConfig.C("basePageUrl"))>=0
 			&&link.indexOf('shareCode')<0
 			&&getCookie("shareCode")!=null&&getCookie("shareCode")!=''){
-
+		
 		if(link.indexOf('?')<0) {
 			link = link +"?";
 		}
@@ -195,7 +200,7 @@ function initShareConfig(title,link,img,desc){
 		}
 		link = link + "shareCode="+getCookie("shareCode");
 	}
-
+	
 	wx.ready(function(){
 		wx.onMenuShareTimeline({
 		    title:title, // 分享标题
@@ -341,6 +346,16 @@ var common = {
             location.href = location.origin +common.removeParamFromUrl(["code"]);
         })
     },
+//  暂时不需要校验本地登录（若存在可登录可不登录的需要处理）
+//  checkLocalLogin: function() {
+//      if(!getCookie("UID")) {
+//          common.alert("unlogin");
+//          return true;
+//      } else {
+//          common.login();
+//          return false;
+//      }
+//  },
     checkRegisterStatus:function(){
         if(!getCookie("UID")){
         	common.login();/**不应该出现*/
@@ -409,8 +424,8 @@ var common = {
         end = MasterConfig.C("oauthUrlPostFix");
         location.href = t + "appid=" + e + "&redirect_uri=" + encodeURIComponent(n) +end+ "#wechat_redirect";
     },
-
-
+    
+    
 };
 
 var commonui = {

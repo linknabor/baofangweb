@@ -21,6 +21,7 @@ avalon.ready(function() {
 	            o.ruleId = n.result.park_discount_rule_conf;
 	            o.rule = n.result.park_discount_rule;
 	            o.pay_least_month = n.result.pay_least_month;
+	            o.reduceMode = n.result.reduce_mode;
 	            buildRuleDisplay(o.ruleId, o.rule);
 	            
 	            if(o.quickbills==null||o.quickbills.size()==0){
@@ -134,6 +135,13 @@ avalon.ready(function() {
 		quicktotalPrice: 0.00,
 		totalPrice: 0.00,
 		cartotalPrice:0.00,
+        bills: [],
+        carbills: [],
+        permit_skip_pay:1,
+        permit_skip_car_pay:1,
+        pay_least_month:0,
+        reduceMode:1,	//四舍五入模式，记账时总金额四舍五入，0表示没有此功能，1表示四舍五入至元，2表示四舍五入至角，3表示自由调价
+        
         changeTab: function(idx) {
         	
             for (var i = 0, len = o.tabs.length; i < len; i++) {
@@ -146,11 +154,6 @@ avalon.ready(function() {
 				o.hint = "缴纳停车费需要先绑定房屋哦。  请在  “社区物业-->我是业主” 中进行绑定。"
 			}
         },
-        bills: [],
-        carbills: [],
-        permit_skip_pay:1,
-        permit_skip_car_pay:1,
-        pay_least_month:0,
         
         /**账单**/
         dropdownCollapsed: true,
@@ -490,7 +493,7 @@ avalon.ready(function() {
             //var url = MasterConfig.C("basePageUrl")+"paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&totalPrice="+total_pay
 
 			var url = MasterConfig.C("payPageFolder")+MasterConfig.C("payPageSuffix");
-            url += "paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&totalPrice="+total_pay;
+            url += "paymentdetail.html?billIds="+bills+"&stmtId="+o.stmtId+"&payAddr="+escape(pay_addr)+"&totalPrice="+total_pay+"&reduceMode="+o.reduceMode;
             url += "&basePageUrl="+MasterConfig.C("basePageUrl");
             window.location.href = url;
         }

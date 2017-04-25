@@ -37,7 +37,34 @@ function computeAmount(){
 		o.factPrice = o.totalPrice;
 	}
 	
+	calcReduceAmt();
+	$("#zzmb").hide();
+}
+
+/**
+ * 计算减免金额
+ */
+function calcReduceAmt(){
 	
+	var ori_price = o.factPrice;
+	var reduced_amt = 0;
+	var reduce_rate = 0;
+	if ("0" == o.reduceMode) {	//不减免
+		return;
+	}else if ("1" == o.reduceMode) {	//四舍五入至元
+		reduce_rate = "1";
+		reduced_amt=Math.round(ori_price*reduce_rate)/reduce_rate;
+		o.hasReduce = "1";
+	}else if ("2" == o.reduceMode) {	//表示四舍五入至角
+		reduce_rate = "10";
+		reduced_amt=Math.round(ori_price*reduce_rate)/reduce_rate;
+		o.hasReduce = "1";
+	}else {
+		return;
+	}
+	o.factPrice = reduced_amt.toFixed(2);
+	o.reduceAmt = parseFloat(o.totalPrice) - parseFloat(o.factPrice);
+	o.reduceAmt = o.reduceAmt.toFixed(2);
 }
 
 avalon.ready(function() {
@@ -49,6 +76,7 @@ avalon.ready(function() {
 		o.payAddr=getUrlParam("payAddr");
 		o.payAddr = unescape(o.payAddr);
 		o.totalPrice=getUrlParam("totalPrice");
+		o.reduceMode=getUrlParam("reduceMode");
 		
 		updateCouponStatus();
 		
@@ -70,7 +98,8 @@ avalon.ready(function() {
     	}
 		o.isPaying = true;
         var n = "POST",
-        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+",&couponNum=1&couponId="+o.model.couponId+"&mianBill="+o.mianBill+"&mianAmt="+o.mianAmt,
+        a = "getPrePayInfo?billId="+o.billId+"&stmtId="+o.stmtId+"&couponUnit="+o.model.couponAmout+
+        	"&couponNum=1&couponId="+o.model.couponId+"&mianBill="+o.mianBill+"&mianAmt="+o.mianAmt+"&reduceAmt="+o.reduceAmt,
         i = null,
         e = function(n) {
             //alert(JSON.stringify(n));
@@ -93,6 +122,7 @@ avalon.ready(function() {
                 "package":n.result.packageValue,
                 "signType":n.result.signtype,
                 "paySign":n.result.paysign,
+				"appId":n.result.appid,
           	    success: function (res) {
                 	notifyPaySuccess();
           	    },
@@ -147,7 +177,7 @@ avalon.ready(function() {
             }
             $("#zzmb").hide();
         },
-        r = function() {
+        r = function(n) {
         	alert("加载红包失败，请刷新后再试。");
         	//queryCoupons();
         	$("#zzmb").hide();
@@ -269,6 +299,9 @@ avalon.ready(function() {
         factPrice:0.00,
         mianBill:'',
         mianAmt:0.00,
+        reduceMode:0,
+        hasReduce:0,
+        reduceAmt:0.00,
         
         model:{
         	couponNum:0,

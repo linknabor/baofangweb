@@ -13,7 +13,7 @@
 	<script src="static/js/fastclick.min-1.0.6.js?v=20151217"></script>
 	<script src="static/js/avalon.js"></script>
 	<script src="static/js/common_v3.js?v=20151217"></script>
-	<script src="paymentdetail.js?v=201511111111217"></script>
+	<script src="paymentdetail.js?v=2015111111111217"></script>
 	<script src="common/coupons.js?v=20151217"></script>
  	<style type="text/css">
         .info-wrap {
@@ -127,7 +127,7 @@
 		</div>
 		<div class="line p15 highlight" style="height:20px; margin-bottom: 15px;">
 				<span class="fl fs15">支付金额</span> 
-				<span class="fr fs20 mlr10"> ¥&nbsp;{{factPrice}}  </span>
+				<span class="fr fs20 mlr10"> <del class="fs15" ms-visible="hasReduce=='1'">¥&nbsp;{{totalPrice}}</del> &nbsp;&nbsp;¥&nbsp;{{factPrice}}</span>
 		</div>
 	</div>
 	<div  style="margin: 30px 0; height: 20px;" ></div>

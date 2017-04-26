@@ -78,7 +78,6 @@ avalon.ready(function() {
 		o.totalPrice=getUrlParam("totalPrice");
 		o.reduceMode=getUrlParam("reduceMode");
 		
-		updateCouponStatus();
 		
 	}
 	function payAction() {
@@ -168,7 +167,7 @@ avalon.ready(function() {
     	}
 		
 		var n = "GET",
-        a = "updateCouponStatus/"+o.cellId,
+        a = "updateCouponStatus",
         i = null,
         e = function(n) {
             console.log(JSON.stringify(n));

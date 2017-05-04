@@ -2,9 +2,8 @@ var o;
 avalon.ready(function() {
 
     function getParam(){
-    	o.collId=getUrlParam("collId");
-//    	o.collId=1;
-//    	alert( o.collId );
+    	//o.collId=getUrlParam("collId");
+    	o.collId=1;
 //    	o.ruleId=getUrlParam("ruleId");
     }
 	function getCollocation() {

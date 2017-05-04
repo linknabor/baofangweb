@@ -1,14 +1,4 @@
 avalon.ready(function() {
-	
-	function queryPics(){
-		common.invokeApi("GET","pageconfig2/15",null,null,function(n){
-			o.pics= n.result;
-		},function(){
-			alert("页面获取信息错误，请稍后重试！");
-		})
-		}
-	
-	
 	function getOrderId(){
 		o.orderId=getUrlParam("orderId");
 		o.type=getUrlParam("type");
@@ -98,7 +88,6 @@ avalon.ready(function() {
         $id: "root",
         order:{seedStr:""},
         orderId:"",
-		pics:[],
         coupon:{id:0},
         marketBuy: 0,
         goback:function(){
@@ -120,7 +109,6 @@ avalon.ready(function() {
     getOrderId();
     notifyPaySuccess();
     query();
-	queryPics();
     initWechat(['onMenuShareTimeline','onMenuShareAppMessage']);
     
     avalon.scan(document.body);

@@ -3,7 +3,7 @@
                 
         baseUrl: "https://www.e-shequ.com/baofang/wechat/hexie/wechat/",
         basePageUrl:"https://www.e-shequ.com/baofang/weixin/",
-        appId: "wx89c743b2fa762a2c",
+        appId: "wxbd214f5765f346c1",
         
         //baseUrl: "https://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"https://www.e-shequ.com/wechat-sit/hexie/",

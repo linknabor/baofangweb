@@ -120,7 +120,11 @@ avalon.ready(function() {
         buy:function(){
 
         	if(common.checkRegisterStatus()&&o.rule.id){
-        		location.href="../buy.html?type=3&ruleId="+o.rule.id;
+				var url = MasterConfig.C("payPageFolder")+MasterConfig.C("payPageSuffix");
+				url += "buy.html";
+				url += "?basePageUrl="+escape(MasterConfig.C("basePageUrl"));
+				url += "&type=3&ruleId="+o.rule.id;;
+        		location.href=url;
         	}
         },
 

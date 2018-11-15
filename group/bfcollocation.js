@@ -59,7 +59,10 @@ avalon.ready(function() {
     		}
     	}
         common.invokeApi("POST", "collocation/saveToCart", {items:items}, null, function(n) {
-				location.href="../multibuy.html?marketBuy=1";
+			var url = MasterConfig.C("payPageFolder")+MasterConfig.C("payPageSuffix");
+            url += "multibuy.html?marketBuy=1";
+            url += "&basePageUrl="+escape(MasterConfig.C("basePageUrl"));
+			location.href = url;
 	        }, function(n) {
 	        	alert(n.message==null?"下单失败，请稍后重试！":n.message);
 	        });

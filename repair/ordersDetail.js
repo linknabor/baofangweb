@@ -42,7 +42,10 @@ avalon.ready(function() {
         finish:function(){
         	if(confirm("确认完工后，进入付费操作")){
         		common.invokeApi("GET", "repair/finish/"+o.item.id, null, null, function(n){
-                    location.href = "../repairPay.html?oId="+o.item.id;
+                    var url = MasterConfig.C("payPageFolder")+MasterConfig.C("payPageSuffix");
+                    url += "repairPay.html?oId="+o.item.id;
+                    url += "&basePageUrl="+escape(MasterConfig.C("basePageUrl"));
+        			location.href = url;
         	    }, function(n){
         	    	alert("系统异常，请稍后重试！");
         	    });

@@ -16,6 +16,10 @@ function chooseAddr(address){
 	if(address){
 	    o.model.address=address;
 	}
+	$('#infoname').text(o.model.address.receiveName) ;
+	$('#infotel').text(o.model.address.tel) ;
+	var str = o.model.address.province + o.model.address.city+ o.model.address.county+'('+o.model.address.xiaoquName+'）'+o.model.address.detailAddress;
+	$('#infoaddr').text(str) ;
 	o.control.currentPage='main';
 };
 

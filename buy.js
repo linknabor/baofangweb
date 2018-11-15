@@ -12,6 +12,7 @@ function chooseCoupon(coupon) {
 }
 //解决结算页面地址无法选择问题
 function chooseAddr(address){
+	console.log(address);
 	if(address){
 	    o.model.address=address;
 	}

@@ -10,6 +10,14 @@ function chooseCoupon(coupon) {
 	computeAmount();
 	o.control.currentPage='main';
 }
+//解决结算页面地址无法选择问题
+function chooseAddr(address){
+	if(address){
+	    o.model.address=address;
+	}
+	o.control.currentPage='main';
+};
+
 function computeAmount(){
 	var pa,pf,a,ta;
 	pa = o.model.rule.price*o.model.count

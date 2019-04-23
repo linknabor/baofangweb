@@ -8,8 +8,8 @@
         //baseUrl: "https://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"https://www.e-shequ.com/wechat-sit/hexie/",
 
-        baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
-        basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
+        baseUrl: "https://test.e-shequ.com/baofang/wechat/hexie/wechat/",
+        basePageUrl:"https://test.e-shequ.com/baofang/weixin/",
         appId: "wx95f46f41ca5e570e",
         bindAppId: "wx95f46f41ca5e570e",
 

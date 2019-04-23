@@ -256,7 +256,7 @@ updateUserStatus(user) {
         }
         if(!isRegisted()){
             alert("请先完成注册！");
-            toRegisterAndBack();
+            // toRegisterAndBack();
             return false;
         }
         return true;

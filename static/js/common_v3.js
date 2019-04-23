@@ -1,22 +1,23 @@
 ﻿var MasterConfig = function() {
     var t = {
                 
-        baseUrl: "https://www.e-shequ.com/baofang/wechat/hexie/wechat/",
-        basePageUrl:"https://www.e-shequ.com/baofang/weixin/",
-        appId: "wxbd214f5765f346c1",
+        // baseUrl: "https://www.e-shequ.com/baofang/wechat/hexie/wechat/",
+        // basePageUrl:"https://www.e-shequ.com/baofang/weixin/",
+        // appId: "wxbd214f5765f346c1",
         
         //baseUrl: "https://www.e-shequ.com/wechat-sit/hexie/wechat/",
         //basePageUrl:"https://www.e-shequ.com/wechat-sit/hexie/",
 
-        //baseUrl: "http://test.e-shequ.com/wechat/hexie/wechat/",
-        //basePageUrl:"http://test.e-shequ.com/weixin/",
-        //appId: "wx95f46f41ca5e570e",
+        baseUrl: "http://test.e-shequ.com/baofang/wechat/hexie/wechat/",
+        basePageUrl:"http://test.e-shequ.com/baofang/weixin/",
+        appId: "wx95f46f41ca5e570e",
+        bindAppId: "wx95f46f41ca5e570e",
 
 
         
         oauthUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
         oauthUrlPostFix:"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect",
-        bindAppId: "wx6b7f7d4010183c46",
+        // bindAppId: "wx6b7f7d4010183c46",
 
 		payPageFolder:"https://www.e-shequ.com/pay/",
         payPageSuffix:"bf",		//baofang

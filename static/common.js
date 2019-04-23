@@ -254,11 +254,11 @@ updateUserStatus(user) {
             common.login();/**不应该出现*/
             return false;
         }
-        if(!isRegisted()){
-            alert("请先完成注册！");
-            // toRegisterAndBack();
-            return false;
-        }
+        // if(!isRegisted()){
+        //     alert("请先完成注册！");
+        //     toRegisterAndBack();
+        //     return false;
+        // }
         return true;
     },
     //需不需要注册

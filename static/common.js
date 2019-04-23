@@ -230,7 +230,7 @@ window.common = {
             end = MasterConfig.C("oauthUrlPostFix");
             location.href = t + "appid=" + MasterConfig.C("appId") + "&redirect_uri=" + encodeURIComponent(n) +end+ "#wechat_redirect"
         } else common.alert("start api login"),
-        this.invokeApi("POST", "login/" + o, null,
+        this.invokeApi("POST", "loginBaofang/" + o, null,
         function() {
             AJAXFlag = !1
         },

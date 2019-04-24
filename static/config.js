@@ -44,9 +44,9 @@ window.config={
 
     //保洁
     home_baojie:{
-        url1:url+namepay+'/guizhoubaojiepay.html?#/order',//支付订单
-        url2:url+namepay+'/guizhoubaojiepay.html?#/'//立即预约
-    },
+        url1:url+namepay+'/guizhoubaojiepay.html?state=123#/order',//支付订单
+        url2:url+namepay+'/guizhoubaojiepay.html?state=123#/'//立即预约
+    }
     
 
     

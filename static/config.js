@@ -1,75 +1,58 @@
-var pay = /127|test/.test(location.origin)?'https://test.e-shequ.com/pay/':
-		  /uat/.test(location.origin)?'https://uat.e-shequ.com/weixin/':
-		  'https://www.e-shequ.com/pay/';
+var url=/127|test/.test(location.origin)?'https://test.e-shequ.com':
+    /uat/.test(location.origin)?'https://uat.e-shequ.com':
+    'https://www.e-shequ.com';
+var name='/baofang';
+var namepay='/pay';
+window.config={
+     
+    //公共的请求地址
+         URL:url+name+'/wechat/hexie/wechat/',
+    //公共的底部跳转
+    footer:{
+        wuye:url+name+'/weixin/wuye/index.html?v=20162299',
+        person:url+name+'/weixin/person/index.html?v=20160229',
+        home:url+name+'/weixin/home/index.html?v=20160229',
+    },
+    //现金券
+    person_coupons:{
+        coupon:url+name+'/weixin/group/onsalesindex.html',
+    },
+    //person跳转支付页
+    person_zhifu:{
+        orderpays:url+namepay+'/guizhouorderpay.html?state=123#/repairPay?',//跳转支付
+        comment:url+namepay+'/guizhouorderpay.html?state=123#/commentxiu',//跳转评论
+        order:url+namepay+'/guizhouorderpay.html?start=123#/',//全部订单
+        grouporders:url+namepay+'/guizhouorderpay.html?start=123#/grouporders',//团购订单
+        homeorders:url+namepay+'/guizhouorderpay.html?start=123#/homeorders',//服务订单
+    },
+    //报修
+    person_repair:{
+        url:url+name+'/weixin/wuye/index.html?state=123#/butler?category=2',//报修
+        fuwux:url+name+'/weixin/wuye/index.html?state=123#/butler?category=0',//服务需求 
+        butler:url+name+'/weixin/wuye/index.html?state=123#/butler?category=1',//建议
+    },
+     //物业绑定房子
+     house_domain: {
+        domain:/127|test/.test(location.origin)?'test.e-shequ.com':
+        /uat/.test(location.origin)?'at.e-shequ.com':
+        'www.e-shequ.com'
+    },
+    //物业支付跳转
+    wuye_payment:{
+        payment:url+namepay+'/guizhouwuyepay.html?#/?'//物业支付成功跳转
+    },
 
-var html= /127|test/.test(location.origin)?'https://test.e-shequ.com/baofang/weixin/':
-		  /uat/.test(location.origin)?'https://uat.e-shequ.com/baofang/weixin/':
-		  'https://www.e-shequ.com/baofang/weixin/';
-var bf = "bf";
-window.config = {
-		//请求头公共部分
-		baseUrl:/127|test/.test(location.origin)?'https://test.e-shequ.com/baofang/wechat/hexie/wechat/':
-  		/uat/.test(location.origin)?'https://uat.e-shequ.com/baofang/wechat/hexie/wechat/':
-  		'https://www.e-shequ.com/baofang/wechat/hexie/wechat/',
+    //保洁
+    home_baojie:{
+        url1:url+namepay+'/guizhoubaojiepay.html?state=123#/order',//支付订单
+        url2:url+namepay+'/guizhoubaojiepay.html?state=123#/'//立即预约
+    }
+    
 
-		//首页请求
-		person_index:{			
-			url1: pay+bf+'orderpay.html',//商品订单 团购订单  服务订单
-			url2: html+'repair/index.html',//报修单			
-			url3: html+'wuye/index.html?#/myHouse',//绑定房屋 我是业主
-		},
-		person_footer:{			
-			url1: html+'wuye/index.html',//底部导航 社区
-			url2: html+'home/index.html' //底部导航 生活
-		},
-		person_register:{			
-			url1: html+'person/index.html',// 注册页
-		},
-		//home页面
-		home_footer:{	
-			url1: html+'wuye/index.html',   //底部导航 物业
-			url2: html+'person/index.html'  //底部导航 个人中心		
-		},
-		home_index:{
-			url1: html+'repair/index.html?#/repair',//home首页便民维修跳转
-			url2:html+'home/kuaidi100.html'//快递查询跳转
-		},
-		repair_orderdetail:{
-			url1: pay+bf+'orderpay.html'
-		},
-		repair_success:{
-			url1: html+'wuye/index.html'
-		},
-		//商品订单板块
-		orderpay_commentxiu:{
-			url1: html+'repair/index.html',
-		},
-		orderpay_homeorderdetail:{
-			url1: html+'home/index.html',
-		},
-		wuye_index:{
-			url1: html+'repair/index.html#/repair?category=4'//便民维修
-		},
-		wuye_footer:{
-			url1: html+'home/index.html',   //底部导航  社区生活
-			url2: html+'person/index.html'  //底部导航  个人中心
-		},
-		wuye_pay:{
-			url1: pay+ bf + 'wuyepay.html'//支付跳转
-		},
-		wuye_house:{
-			url1: /127|test/.test(location.origin)?'test.e-shequ.com':
-  				  /uat/.test(location.origin)?'uat.e-shequ.com':
-  				  'www.e-shequ.com'       //提示框网址
-		},
-		wuye_suggest:{
-			url1: html+'wuye/index.html'//意见发布成功后跳转地址
-		},
-		wuye_zhifu:{
-			url1:html+'wuye/index.html?#/paymentquery'
-		}
-		
-};
+    
 
 
-// export default config;
+
+   
+}
+
